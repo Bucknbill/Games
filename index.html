@@ -114,10 +114,11 @@
   .nav-left:hover, .nav-center:hover, .nav-right:hover { color: var(--accent); }
   .nav-center { position: absolute; left: 50%; transform: translateX(-50%); }
 
-  .content { flex: 1; padding: 25px; text-align: center; }
+  .content { flex: 1; padding: 25px; text-align: center; overflow: hidden; }
   .content h1 { font-size: 2rem; margin-bottom: 10px; }
 
   /* --- Games Grid --- */
+  #gamesTab { display: none; height: calc(100vh - 80px); overflow-y: auto; padding-bottom: 20px; }
   .games-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -171,7 +172,7 @@
     <p>Credits To Chris (christopherafton on discord)</p>
   </div>
 
-  <div class="content" id="gamesTab" style="display:none;">
+  <div class="content" id="gamesTab">
     <h1>🎮 Games</h1>
     <div class="games-grid" id="gamesGrid"></div>
     <div class="game-container" id="gameContainer">
@@ -245,7 +246,7 @@
     "Sandboxels.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html",
     "Subway Surfers_ San Francisco.html","Temple Run 2.html","That's Not My Neighbor.html","They Are Coming.html",
     "Time Shooter 3_ SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html","Turbo Stars.html","World Box.html",
-    "minesweeper.html"
+    "minesweeper.html","Getting Over It with Bennett Foddy.html"
   ];
 
   games.forEach(file => {
@@ -257,7 +258,7 @@
     card.onclick = () => {
       gamesGrid.style.display = "none";
       gameContainer.style.display = "flex";
-      gameIframe.src = encodeURIComponent(file);
+      gameIframe.src = file;
     };
     gamesGrid.appendChild(card);
   });
