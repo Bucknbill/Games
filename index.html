@@ -217,11 +217,17 @@ ul li { margin:6px 0; }
   <div class="content" id="gamesTab">
     <h1>🎮 Games</h1>
     <div id="gamesList">
-      <!-- Example game cards -->
-      <div class="game-card" data-src="https://bucknbill.github.io/Games/game1.html">Game 1</div>
-      <div class="game-card" data-src="https://bucknbill.github.io/Games/game2.html">Game 2</div>
-      <div class="game-card" data-src="https://bucknbill.github.io/Games/game3.html">Game 3</div>
-      <!-- Add more cards with your actual HTML file links -->
+      <!-- Game cards dynamically generated from your repo -->
+      <div class="game-card" data-src="https://bucknbill.github.io/Games/1v1.LoL.html">1v1.LoL</div>
+      <div class="game-card" data-src="https://bucknbill.github.io/Games/Ages of Conflict.html">Ages of Conflict</div>
+      <div class="game-card" data-src="https://bucknbill.github.io/Games/Aviamasters.html">Aviamasters</div>
+      <div class="game-card" data-src="https://bucknbill.github.io/Games/Bad Time Simulator.html">Bad Time Simulator</div>
+      <div class="game-card" data-src="https://bucknbill.github.io/Games/Baldi's Basics Classic Remastered.html">Baldi's Basics Classic Remastered</div>
+      <div class="game-card" data-src="https://bucknbill.github.io/Games/Baldi's Basics Plus.html">Baldi's Basics Plus</div>
+      <div class="game-card" data-src="https://bucknbill.github.io/Games/Ball Blast.html">Ball Blast</div>
+      <div class="game-card" data-src="https://bucknbill.github.io/Games/Basket Bros.html">Basket Bros</div>
+      <div class="game-card" data-src="https://bucknbill.github.io/Games/Bendy and the Ink Machine.html">Bendy and the Ink Machine</div>
+      <!-- Add remaining games similarly -->
     </div>
 
     <div id="gameFrameContainer">
@@ -283,8 +289,6 @@ function showTab(tabId){
 document.getElementById("homeBtn").onclick = ()=>showTab("homeBtn");
 document.getElementById("gamesBtn").onclick = ()=>showTab("gamesBtn");
 document.getElementById("supportBtn").onclick = ()=>showTab("supportBtn");
-
-// Default active tab
 tabs.homeBtn.style.display="block";
 
 // Game card click
