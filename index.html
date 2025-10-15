@@ -79,16 +79,18 @@
     .content {
       text-align: center;
       margin-top: 80px;
-      animation: fadeIn 1.5s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .active {
+      opacity: 1;
+      transform: translateY(0);
     }
 
+    /* Hidden Class */
     .hidden {
       display: none;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Bubble Animation */
@@ -124,7 +126,7 @@
     </div>
   </div>
 
-  <div class="content" id="homeTab">
+  <div class="content active" id="homeTab">
     <h1>Welcome to HTMS Gaming 🎮</h1>
     <p>Explore, play, and rise to the top — one game at a time.</p>
   </div>
@@ -140,7 +142,7 @@
   </div>
 
   <script>
-    // Password
+    // Password Protection
     function checkPassword() {
       const password = document.getElementById("passwordInput").value;
       if (password === "sixgraderise") {
@@ -150,15 +152,22 @@
       }
     }
 
-    // Tab Navigation
+    // Tab Switch Fade Effect
     function showTab(tabName) {
-      document.getElementById("homeTab").classList.add("hidden");
-      document.getElementById("gamesTab").classList.add("hidden");
-      document.getElementById("supportTab").classList.add("hidden");
-      document.getElementById(tabName + "Tab").classList.remove("hidden");
+      const tabs = ["home", "games", "support"];
+      tabs.forEach(tab => {
+        const element = document.getElementById(tab + "Tab");
+        if (tab === tabName) {
+          element.classList.remove("hidden");
+          setTimeout(() => element.classList.add("active"), 10);
+        } else {
+          element.classList.remove("active");
+          setTimeout(() => element.classList.add("hidden"), 400);
+        }
+      });
     }
 
-    // Generate bubbles
+    // Create Floating Bubbles
     for (let i = 0; i < 20; i++) {
       const bubble = document.createElement("div");
       const size = Math.random() * 40 + 10;
