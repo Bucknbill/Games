@@ -26,7 +26,6 @@
     align-items: center;
   }
 
-  /* --- GALAXY BACKGROUND ANIMATION --- */
   body::before, body::after {
     content: "";
     position: absolute;
@@ -58,7 +57,6 @@
     100% { opacity: 0.5; }
   }
 
-  /* --- LOCK SCREEN --- */
   .card {
     background: var(--card-bg);
     padding: 30px;
@@ -71,9 +69,7 @@
     transition: all 0.4s ease;
   }
 
-  h1 {
-    margin-bottom: 10px;
-  }
+  h1 { margin-bottom: 10px; }
 
   input {
     padding: 12px;
@@ -105,13 +101,8 @@
     background: #a3e3ff;
   }
 
-  .msg {
-    margin-top: 10px;
-    color: #ff7575;
-    font-size: 14px;
-  }
+  .msg { margin-top: 10px; color: #ff7575; font-size: 14px; }
 
-  /* --- MAIN SITE --- */
   .main-site {
     display: none;
     flex-direction: column;
@@ -126,6 +117,7 @@
     to { opacity: 1; transform: translateY(0);}
   }
 
+  /* Fixed navbar */
   .navbar {
     display: flex;
     justify-content: space-between;
@@ -136,79 +128,24 @@
     position: relative;
   }
 
-  .nav-left, .nav-center, .nav-right {
-    font-weight: 600;
-    color: var(--text);
-    cursor: pointer;
-    transition: color 0.2s;
-  }
+  .nav-left { position: absolute; left: 25px; font-weight:600; color:var(--text); cursor:pointer;}
+  .nav-center { position: absolute; left: 35%; transform:translateX(-50%); font-weight:600; color:var(--text); cursor:pointer;}
+  .nav-center2 { position: absolute; left: 50%; transform:translateX(-50%); font-weight:600; color:var(--text); cursor:pointer;}
+  .nav-center3 { position: absolute; left: 65%; transform:translateX(-50%); font-weight:600; color:var(--text); cursor:pointer;}
+  .nav-right { position: absolute; right: 25px; font-weight:600; color:var(--text); cursor:pointer;}
+  .nav-left:hover,.nav-center:hover,.nav-center2:hover,.nav-center3:hover,.nav-right:hover{color:var(--accent);}
 
-  .nav-left:hover, .nav-center:hover, .nav-right:hover {
-    color: var(--accent);
-  }
+  .content { flex:1; padding:25px; text-align:center; overflow-y:auto; position:relative; }
+  .content h1 { font-size:2rem; margin-bottom:10px; }
 
-  .nav-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+  /* Games grid */
+  #gamesGrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin-top:15px; }
+  .gameCard { background:var(--card-bg); padding:10px; border-radius:15px; text-align:center; cursor:pointer; transition: transform 0.2s; position:relative; color:var(--text);}
+  .gameCard:hover { transform:scale(1.05); box-shadow:0 0 15px var(--accent); }
 
-  .content {
-    flex: 1;
-    padding: 25px;
-    text-align: center;
-    overflow-y: auto;
-    position: relative;
-  }
-
-  .content h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  ul li {
-    margin: 6px 0;
-  }
-
-  /* --- Games Grid --- */
-  #gamesGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-    gap: 15px;
-    margin-top: 15px;
-  }
-
-  .gameCard {
-    background: var(--card-bg);
-    padding: 10px;
-    border-radius: 15px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s;
-    position: relative;
-    color: var(--text);
-  }
-
-  .gameCard:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px var(--accent);
-  }
-
-  /* Rainbow title for Games tab top message */
+  .rainbowText { animation: rainbow 3s linear infinite; font-weight:700; font-size:1.2rem; }
   @keyframes rainbow {
     0%{color:red;} 14%{color:orange;} 28%{color:yellow;} 42%{color:green;} 57%{color:blue;} 71%{color:indigo;} 85%{color:violet;} 100%{color:red;}
-  }
-
-  .rainbowText {
-    animation: rainbow 3s linear infinite;
-    font-weight:700;
-    font-size:1.2rem;
   }
 </style>
 </head>
@@ -229,8 +166,8 @@
   <div class="navbar">
     <div class="nav-left" id="homeBtn">🏠 Home</div>
     <div class="nav-center" id="announcementsBtn">📢 Announcements</div>
-    <div class="nav-center" style="left:55%;" id="gamesBtn">🎮 Games</div>
-    <div class="nav-center" style="left:65%;" id="chatBtn">💬 Chat</div>
+    <div class="nav-center2" id="gamesBtn">🎮 Games</div>
+    <div class="nav-center3" id="chatBtn">💬 Chat</div>
     <div class="nav-right" id="supportBtn">💫 Support</div>
   </div>
 
@@ -239,9 +176,7 @@
     <h1>🌌 Welcome to HTMS Gaming</h1>
     <p>Explore your personal galaxy of fun and creativity.</p>
     <p>Credits To Chris (christopherafton on discord)</p>
-    <div id="adminLoginLink" style="position:absolute;bottom:15px;left:20px;cursor:pointer;color:var(--accent);font-weight:600;">
-      Admin Login
-    </div>
+    <div id="adminLoginLink" style="position:absolute;bottom:15px;left:20px;cursor:pointer;color:var(--accent);font-weight:600;">Admin Login</div>
     <div id="adminLoginBox" style="display:none;position:absolute;bottom:50px;left:15px;background:var(--card-bg);padding:10px;border-radius:10px;backdrop-filter:blur(8px);box-shadow:0 0 10px rgba(128,208,255,0.4);">
       <input type="password" id="adminKey" placeholder="Enter Admin Key" style="padding:8px;border-radius:10px;border:2px solid var(--accent);outline:none;width:140px;color:var(--text);background:transparent;">
       <button id="unlockAdminBtn" style="padding:6px 10px;font-size:14px;">Unlock</button>
@@ -252,136 +187,131 @@
   <div class="content" id="announcementsTab" style="display:none;">
     <h1>📢 Announcements</h1>
     <div id="announcementsContent">
-      <p>Admin posts will appear here.</p>
+      <p>No announcements yet.</p>
     </div>
   </div>
 
   <!-- Games Tab -->
   <div class="content" id="gamesTab" style="display:none;">
-    <div class="rainbowText">Please finish your work before playing =)</div>
+    <h1 class="rainbowText">Please finish your work before playing =)</h1>
     <div id="gamesGrid">
-      <!-- Example games (replace with all your listed games) -->
-      <div class="gameCard" onclick="openGame('games/1v1.LoL.html')">1v1 LoL</div>
-      <div class="gameCard" onclick="openGame('games/Ages of Conflict.html')">Ages of Conflict</div>
-      <div class="gameCard" onclick="openGame('games/Getting Over It with Bennett Foddy.html')">Getting Over It</div>
-      <div class="gameCard" onclick="openGame('games/Baldi\'s Basics Plus.html')">Baldi's Basics Plus</div>
-      <!-- ... add all other games similarly ... -->
+      <!-- Example game -->
+      <div class="gameCard" onclick="openGame('1v1.LoL.html')">1v1.LoL</div>
+      <div class="gameCard" onclick="openGame('Ages of Conflict.html')">Ages of Conflict</div>
+      <div class="gameCard" onclick="openGame('Aviamasters.html')">Aviamasters</div>
+      <div class="gameCard" onclick="openGame('Getting Over It with Bennett Foddy.html')">Getting Over It</div>
+      <!-- Add the rest of your games in similar format -->
     </div>
-
-    <!-- Game iframe -->
-    <div id="gameFrameContainer" style="display:none;margin-top:20px;">
-      <button onclick="closeGame()" style="margin-bottom:10px;">⬅ Back to Games</button>
-      <button onclick="toggleFullscreen()" style="margin-left:10px;margin-bottom:10px;">⛶ Fullscreen</button>
-      <iframe id="gameFrame" src="" style="width:100%;height:600px;border:none;border-radius:15px;"></iframe>
+    <div id="gameFrameContainer" style="display:none;margin-top:15px;">
+      <button onclick="closeGame()">Back</button>
+      <button onclick="fullscreenGame()">Fullscreen</button>
+      <iframe id="gameFrame" src="" style="width:100%;height:500px;border:none;margin-top:10px;border-radius:15px;"></iframe>
     </div>
   </div>
 
   <!-- Chat Tab -->
   <div class="content" id="chatTab" style="display:none;">
     <h1>💬 Global Chat</h1>
-    <div id="chatMessages" style="height:400px;overflow-y:auto;background:var(--card-bg);padding:10px;border-radius:10px;"></div>
-    <input type="text" id="chatInput" placeholder="Enter message..." style="width:70%;margin-top:10px;">
-    <input type="text" id="chatNick" placeholder="Nickname" style="width:25%;margin-top:10px;">
-    <button id="sendChatBtn">Send</button>
+    <p>Coming soon!</p>
   </div>
 
   <!-- Support Tab -->
   <div class="content" id="supportTab" style="display:none;">
     <h1>💫 Support</h1>
-    <p>Suggestions and Bugs</p>
+    <p><a href="https://docs.google.com/forms/d/1PcSHuVaHrJn7vhyGADq3xJmxooL-KKKU2vyE_gwmOBs/" target="_blank" style="color:var(--accent);text-decoration:none;">Submit Suggestions / Bugs</a></p>
     <p>THIS IS ONLY FOR SUGGESTIONS OR BUGS</p>
-    <a href="https://docs.google.com/forms/d/1PcSHuVaHrJn7vhyGADq3xJmxooL-KKKU2vyE_gwmOBs/" target="_blank">Google Form</a>
   </div>
 
   <!-- Admin Tab -->
   <div class="content" id="adminTab" style="display:none;">
-    <h1>🛠️ Admin Panel</h1>
-    <div id="databaseContent">
-      <p style="opacity:.9">Admin unlocked. Implement <code>loadDatabase()</code> to display DB content.</p>
-    </div>
+    <h1>🔑 Admin Database Panel</h1>
+    <p>Manage announcements, users, chat logs here.</p>
   </div>
 </div>
 
 <script>
-/* --- SITE PASSWORD --- */
-const SITE_PASSWORD = "sixgraderise";
+const STORED_HASH = "425eff6720032338a0cea650966a475e074ddba46962a3995346dfaf273cf1d4";
+const ADMIN_KEY = "jason121";
+
 const lockCard = document.getElementById("lockCard");
 const mainSite = document.getElementById("mainSite");
+const msg = document.getElementById("msg");
 const pwInput = document.getElementById("pw");
-const msgEl = document.getElementById("msg");
 
-function tryUnlockSite(){
-  if(pwInput.value.trim() === SITE_PASSWORD){
-    lockCard.style.display = "none";
-    mainSite.style.display = "flex";
-    showTab(document.getElementById("homeTab"));
-  } else {
-    msgEl.textContent = "❌ Wrong password!";
-    setTimeout(()=>{msgEl.textContent="";},3000);
-  }
+async function sha256(text){
+  const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buffer)).map(b=>b.toString(16).padStart(2,"0")).join("");
 }
 
-document.getElementById("unlockBtn").addEventListener("click",tryUnlockSite);
-pwInput.addEventListener("keydown",(e)=>{if(e.key==="Enter") tryUnlockSite();});
+document.getElementById("unlockBtn").onclick = async () => {
+  const input = pwInput.value.trim();
+  const hash = await sha256(input);
+  if(hash === STORED_HASH){
+    lockCard.style.display="none";
+    mainSite.style.display="flex";
+  } else {
+    msg.textContent="❌ Wrong password!";
+  }
+};
 
-/* --- Tab System --- */
+// Tabs
 const homeBtn = document.getElementById("homeBtn");
+const announcementsBtn = document.getElementById("announcementsBtn");
 const gamesBtn = document.getElementById("gamesBtn");
 const chatBtn = document.getElementById("chatBtn");
 const supportBtn = document.getElementById("supportBtn");
-const announcementsBtn = document.getElementById("announcementsBtn");
-
+const adminTab = document.getElementById("adminTab");
 const homeTab = document.getElementById("homeTab");
+const announcementsTab = document.getElementById("announcementsTab");
 const gamesTab = document.getElementById("gamesTab");
 const chatTab = document.getElementById("chatTab");
 const supportTab = document.getElementById("supportTab");
-const announcementsTab = document.getElementById("announcementsTab");
-const adminTab = document.getElementById("adminTab");
 
-function showTab(tab){ [homeTab,gamesTab,chatTab,supportTab,announcementsTab,adminTab].forEach(t=>t.style.display="none"); tab.style.display="block"; }
-
-/* --- Games iframe --- */
-function openGame(src){
-  document.getElementById("gamesGrid").style.display="none";
-  const container = document.getElementById("gameFrameContainer");
-  const frame = document.getElementById("gameFrame");
-  frame.src=src;
-  container.style.display="block";
-}
-function closeGame(){
-  document.getElementById("gameFrameContainer").style.display="none";
-  document.getElementById("gamesGrid").style.display="grid";
-}
-function toggleFullscreen(){
-  const iframe=document.getElementById("gameFrame");
-  if(iframe.requestFullscreen) iframe.requestFullscreen();
+function showTab(tab){
+  [homeTab, announcementsTab, gamesTab, chatTab, supportTab, adminTab].forEach(t=>t.style.display="none");
+  tab.style.display="block";
 }
 
-/* --- Admin Login --- */
+homeBtn.onclick = () => showTab(homeTab);
+announcementsBtn.onclick = () => showTab(announcementsTab);
+gamesBtn.onclick = () => showTab(gamesTab);
+chatBtn.onclick = () => showTab(chatTab);
+supportBtn.onclick = () => showTab(supportTab);
+
+// Admin login
 const adminLoginLink = document.getElementById("adminLoginLink");
 const adminLoginBox = document.getElementById("adminLoginBox");
-const unlockAdminBtn = document.getElementById("unlockAdminBtn");
 const adminKeyInput = document.getElementById("adminKey");
+const unlockAdminBtn = document.getElementById("unlockAdminBtn");
 
-const ADMIN_KEY = "jason121";
-
-adminLoginLink.addEventListener("click",()=>{adminLoginBox.style.display = adminLoginBox.style.display==="none"?"block":"none";});
-
-function tryUnlockAdmin(){
+adminLoginLink.onclick = () => {
+  adminLoginBox.style.display = adminLoginBox.style.display==="none"?"block":"none";
+};
+unlockAdminBtn.onclick = () => {
   const key = adminKeyInput.value.trim();
-  if(key===ADMIN_KEY){
+  if(key === ADMIN_KEY){
     alert("🔓 Admin unlocked!");
     showTab(adminTab);
     adminLoginBox.style.display="none";
     adminKeyInput.value="";
   } else { alert("❌ Wrong admin key!"); }
+};
+
+// Games iframe
+function openGame(file){
+  document.getElementById("gamesGrid").style.display="none";
+  document.getElementById("gameFrameContainer").style.display="block";
+  document.getElementById("gameFrame").src=file;
 }
-unlockAdminBtn.addEventListener("click",tryUnlockAdmin);
-adminKeyInput.addEventListener("keydown",(e)=>{if(e.key==="Enter") tryUnlockAdmin();});
-
-/* --- Chat placeholder --- */
-document.getElementById("sendChatBtn").addEventListener("click",()=>{const nick=document.getElementById("chatNick").value||"Anon"; const msg=document.getElementById("chatInput").value.trim(); if(msg){const chat=document.getElementById("chatMessages");const p=document.createElement("p");p.innerHTML=`<strong>${nick}:</strong> ${msg}`; chat.appendChild(p); chat.scrollTop=chat.scrollHeight; document.getElementById("chatInput").value="";}});
-
+function closeGame(){
+  document.getElementById("gameFrameContainer").style.display="none";
+  document.getElementById("gamesGrid").style.display="grid";
+}
+function fullscreenGame(){
+  const iframe = document.getElementById("gameFrame");
+  if(iframe.requestFullscreen){iframe.requestFullscreen();}
+  else if(iframe.webkitRequestFullscreen){iframe.webkitRequestFullscreen();}
+}
 </script>
 </body>
 </html>
