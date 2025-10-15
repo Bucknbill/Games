@@ -26,7 +26,7 @@
     align-items: center;
   }
 
-  /* --- GALAXY BACKGROUND ANIMATION --- */
+  /* --- GALAXY BACKGROUND --- */
   body::before, body::after {
     content: "";
     position: absolute;
@@ -47,16 +47,8 @@
     opacity: 0.7;
   }
 
-  @keyframes drift {
-    from { transform: translate(0, 0); }
-    to { transform: translate(-200px, -200px); }
-  }
-
-  @keyframes twinkle {
-    0% { opacity: 0.4; }
-    50% { opacity: 0.8; }
-    100% { opacity: 0.5; }
-  }
+  @keyframes drift { from { transform: translate(0, 0); } to { transform: translate(-200px, -200px); } }
+  @keyframes twinkle { 0% { opacity: 0.4; } 50% { opacity: 0.8; } 100% { opacity: 0.5; } }
 
   /* --- LOCK SCREEN --- */
   .card {
@@ -71,10 +63,7 @@
     transition: all 0.4s ease;
   }
 
-  h1 {
-    margin-bottom: 10px;
-  }
-
+  h1 { margin-bottom: 10px; }
   input {
     padding: 12px;
     border-radius: 20px;
@@ -87,7 +76,6 @@
     background: transparent;
     color: var(--text);
   }
-
   button {
     background: var(--accent);
     color: #0d0130;
@@ -99,31 +87,12 @@
     font-weight: 600;
     transition: transform 0.15s, background 0.2s;
   }
-
-  button:hover {
-    transform: scale(1.05);
-    background: #a3e3ff;
-  }
-
-  .msg {
-    margin-top: 10px;
-    color: #ff7575;
-    font-size: 14px;
-  }
+  button:hover { transform: scale(1.05); background: #a3e3ff; }
+  .msg { margin-top: 10px; color: #ff7575; font-size: 14px; }
 
   /* --- MAIN SITE --- */
-  .main-site {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    animation: fadeIn 0.8s ease forwards;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px);}
-    to { opacity: 1; transform: translateY(0);}
-  }
+  .main-site { display: none; flex-direction: column; width: 100%; height: 100%; animation: fadeIn 0.8s ease forwards; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
 
   .navbar {
     display: flex;
@@ -142,81 +111,45 @@
     transition: color 0.2s;
   }
 
-  .nav-left:hover, .nav-center:hover, .nav-right:hover {
-    color: var(--accent);
-  }
+  .nav-left:hover, .nav-center:hover, .nav-right:hover { color: var(--accent); }
+  .nav-center { position: absolute; left: 50%; transform: translateX(-50%); }
 
-  .nav-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .content {
-    flex: 1;
-    padding: 25px;
-    text-align: center;
-  }
-
-  .content h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-  }
+  .content { flex: 1; padding: 25px; text-align: center; }
+  .content h1 { font-size: 2rem; margin-bottom: 10px; }
 
   /* --- Games Grid --- */
   .games-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 15px;
     margin-top: 20px;
   }
 
   .game-card {
     background: var(--card-bg);
-    padding: 15px;
+    padding: 12px;
     border-radius: 15px;
     cursor: pointer;
     transition: transform 0.15s, box-shadow 0.2s;
     font-size: 0.95rem;
-    height: 80px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
   }
+  .game-card:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent); }
 
-  .game-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px var(--accent);
-  }
-
-  .game-container {
-    display: none;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  .game-controls {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .game-iframe {
-    width: 100%;
-    flex: 1;
-    border: none;
-    border-radius: 12px;
-  }
-
+  .game-container { display: none; flex-direction: column; height: 100%; }
+  .game-controls { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px; }
+  .game-iframe { width: 100%; flex: 1; border: none; border-radius: 12px; }
 </style>
 </head>
 <body>
 
 <!-- Password Screen -->
 <div class="card" id="lockCard">
-  <h1>🚀 Welcome to HTMS Gaming</h1>
+  <h1>🚀 HTMS Gaming</h1>
   <p>Enter password to enter the galaxy:</p>
   <input type="password" id="pw" placeholder="Password">
   <br>
@@ -240,10 +173,7 @@
 
   <div class="content" id="gamesTab" style="display:none;">
     <h1>🎮 Games</h1>
-    <div class="games-grid" id="gamesGrid">
-      <!-- Game cards will be generated here -->
-    </div>
-
+    <div class="games-grid" id="gamesGrid"></div>
     <div class="game-container" id="gameContainer">
       <div class="game-controls">
         <button id="backBtn">⬅ Back</button>
@@ -266,10 +196,9 @@
   const lockCard = document.getElementById("lockCard");
   const mainSite = document.getElementById("mainSite");
   const msg = document.getElementById("msg");
-  const pwInput = document.getElementById("pw");
 
   document.getElementById("unlockBtn").onclick = () => {
-    const input = pwInput.value.trim();
+    const input = document.getElementById("pw").value.trim();
     if (input === "sixgraderise") {
       lockCard.style.display = "none";
       mainSite.style.display = "flex";
@@ -290,7 +219,6 @@
     [homeTab, gamesTab, supportTab].forEach(t => t.style.display = "none");
     tab.style.display = "block";
   }
-
   homeBtn.onclick = () => showTab(homeTab);
   gamesBtn.onclick = () => showTab(gamesTab);
   supportBtn.onclick = () => showTab(supportTab);
@@ -302,41 +230,34 @@
   const backBtn = document.getElementById("backBtn");
   const fullscreenBtn = document.getElementById("fullscreenBtn");
 
-  // Add your game filenames here exactly as they are in root
-  const gameList = [
-    "1v1.LoL.html",
-    "Ages of Conflict.html",
-    "Aviamasters.html",
-    "Candy Island.html",
-    "Click The Dot.html",
-    "Dumb Ways to Die.html",
-    "G-Snatcher.html",
-    "GD HTML CLONE.html",
-    "Geometry Dash HTML.html",
-    "Idle Cats.html",
-    "Krunker.html",
-    "Madalin Stunt Cars.html",
-    "Mini Royale 2.html",
-    "Paper.io.html",
-    "Sonic.html",
-    "Slither.io.html",
-    "Slope.html",
-    "Stick Fight.html",
-    "Super Smash Flash.html",
-    "Tetris.html",
-    "Vex 3.html",
-    "Vex 4.html",
-    "Vex 6.html"
+  const games = [
+    "1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html",
+    "Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html","Ball Blast.html",
+    "Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
+    "Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
+    "Chat Bot.html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html",
+    "Drift Boss.html","Drift Hunters.html","Five Nights at Freddy's 2.html","Five Nights at Freddy's 3.html",
+    "Five Nights at Freddy's 4.html","Five Nights at Freddy's.html","Five Nights at Freddy's_ Sister Location.html",
+    "Five Nights at Freddy's_ Ultimate Custom Night.html","Five Nights at Freddy's_ World.html",
+    "Five Nights at Winston's.html","Flappy Bird.html","Fruit Ninja.html","Half Life.html","Hollow Knight.html",
+    "Jelly Drift.html","Karlson.html","Money Rush.html","Paper.io 2.html","Pixel Gun Survival.html","Pizza Tower.html",
+    "Plinko.html","Pokemon Emerald.html","Pokemon Red.html","PortaBoy+.html","R.E.P.O.html","Raft.html",
+    "Sandboxels.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html",
+    "Subway Surfers_ San Francisco.html","Temple Run 2.html","That's Not My Neighbor.html","They Are Coming.html",
+    "Time Shooter 3_ SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html","Turbo Stars.html","World Box.html",
+    "minesweeper.html"
   ];
 
-  gameList.forEach(game => {
+  games.forEach(file => {
+    let displayName = file.replace(".html","").replace(/_/g," ");
+    if(displayName.length>20){ displayName = displayName.slice(0,17)+"..."; }
     const card = document.createElement("div");
     card.className = "game-card";
-    card.textContent = game.replace(".html", "");
+    card.textContent = displayName;
     card.onclick = () => {
       gamesGrid.style.display = "none";
       gameContainer.style.display = "flex";
-      gameIframe.src = `./${encodeURIComponent(game)}`;
+      gameIframe.src = encodeURIComponent(file);
     };
     gamesGrid.appendChild(card);
   });
@@ -348,15 +269,10 @@
   };
 
   fullscreenBtn.onclick = () => {
-    if (gameIframe.requestFullscreen) {
-      gameIframe.requestFullscreen();
-    } else if (gameIframe.webkitRequestFullscreen) {
-      gameIframe.webkitRequestFullscreen();
-    } else if (gameIframe.msRequestFullscreen) {
-      gameIframe.msRequestFullscreen();
-    }
+    if(gameIframe.requestFullscreen){ gameIframe.requestFullscreen(); }
+    else if(gameIframe.webkitRequestFullscreen){ gameIframe.webkitRequestFullscreen(); }
+    else if(gameIframe.msRequestFullscreen){ gameIframe.msRequestFullscreen(); }
   };
 </script>
-
 </body>
 </html>
