@@ -262,10 +262,101 @@
 </div>
 
 <script>
-  // SHA-256 hash of "sixgraderise"
-  const STORED_HASH = "425eff6720032338a0cea650966a475e074ddba46962a3995346dfaf273cf1d4";
-
+  // --- PASSWORD ---
   const lockCard = document.getElementById("lockCard");
   const mainSite = document.getElementById("mainSite");
   const msg = document.getElementById("msg");
-  const pwInput = document.getElementBy
+  const pwInput = document.getElementById("pw");
+
+  document.getElementById("unlockBtn").onclick = () => {
+    const input = pwInput.value.trim();
+    if (input === "sixgraderise") {
+      lockCard.style.display = "none";
+      mainSite.style.display = "flex";
+    } else {
+      msg.textContent = "❌ Wrong password!";
+    }
+  };
+
+  // --- TABS ---
+  const homeBtn = document.getElementById("homeBtn");
+  const gamesBtn = document.getElementById("gamesBtn");
+  const supportBtn = document.getElementById("supportBtn");
+  const homeTab = document.getElementById("homeTab");
+  const gamesTab = document.getElementById("gamesTab");
+  const supportTab = document.getElementById("supportTab");
+
+  function showTab(tab) {
+    [homeTab, gamesTab, supportTab].forEach(t => t.style.display = "none");
+    tab.style.display = "block";
+  }
+
+  homeBtn.onclick = () => showTab(homeTab);
+  gamesBtn.onclick = () => showTab(gamesTab);
+  supportBtn.onclick = () => showTab(supportTab);
+
+  // --- GAME CARDS ---
+  const gamesGrid = document.getElementById("gamesGrid");
+  const gameContainer = document.getElementById("gameContainer");
+  const gameIframe = document.getElementById("gameIframe");
+  const backBtn = document.getElementById("backBtn");
+  const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+  // Add your game filenames here exactly as they are in root
+  const gameList = [
+    "1v1.LoL.html",
+    "Ages of Conflict.html",
+    "Aviamasters.html",
+    "Candy Island.html",
+    "Click The Dot.html",
+    "Dumb Ways to Die.html",
+    "G-Snatcher.html",
+    "GD HTML CLONE.html",
+    "Geometry Dash HTML.html",
+    "Idle Cats.html",
+    "Krunker.html",
+    "Madalin Stunt Cars.html",
+    "Mini Royale 2.html",
+    "Paper.io.html",
+    "Sonic.html",
+    "Slither.io.html",
+    "Slope.html",
+    "Stick Fight.html",
+    "Super Smash Flash.html",
+    "Tetris.html",
+    "Vex 3.html",
+    "Vex 4.html",
+    "Vex 6.html"
+  ];
+
+  gameList.forEach(game => {
+    const card = document.createElement("div");
+    card.className = "game-card";
+    card.textContent = game.replace(".html", "");
+    card.onclick = () => {
+      gamesGrid.style.display = "none";
+      gameContainer.style.display = "flex";
+      gameIframe.src = `./${encodeURIComponent(game)}`;
+    };
+    gamesGrid.appendChild(card);
+  });
+
+  backBtn.onclick = () => {
+    gameContainer.style.display = "none";
+    gamesGrid.style.display = "grid";
+    gameIframe.src = "";
+  };
+
+  fullscreenBtn.onclick = () => {
+    if (gameIframe.requestFullscreen) {
+      gameIframe.requestFullscreen();
+    } else if (gameIframe.webkitRequestFullscreen) {
+      gameIframe.webkitRequestFullscreen();
+    } else if (gameIframe.msRequestFullscreen) {
+      gameIframe.msRequestFullscreen();
+    }
+  };
+</script>
+
+</body>
+</html>
