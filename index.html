@@ -27,15 +27,17 @@
     position: relative;
   }
 
-  /* --- STARS --- */
-  .starfield {
+  /* --- GALAXY BACKGROUND --- */
+  .galaxy-bg {
     position: absolute;
     top:0; left:0;
     width: 100%; height: 100%;
-    pointer-events: none;
     overflow: hidden;
     z-index: 0;
+    background: radial-gradient(circle at bottom, #0d0130, #000010 90%);
   }
+
+  /* Stars */
   .star {
     position: absolute;
     background: white;
@@ -43,60 +45,57 @@
     opacity: 0.7;
     animation: twinkle 5s infinite alternate;
   }
+
   @keyframes twinkle {
     0% { opacity: 0.2; }
     50% { opacity: 0.8; }
     100% { opacity: 0.3; }
   }
 
-  /* --- NEBULAS --- */
+  /* Nebulas */
   .nebula-layer {
     position: absolute;
-    width: 150%;
-    height: 150%;
-    top: -25%;
-    left: -25%;
-    pointer-events: none;
-    background: radial-gradient(circle at 30% 40%, rgba(128,0,255,0.15), transparent 60%),
-                radial-gradient(circle at 70% 60%, rgba(0,255,255,0.1), transparent 60%),
-                radial-gradient(circle at 50% 80%, rgba(255,128,128,0.12), transparent 50%);
-    filter: blur(90px);
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 40% 40%, rgba(128,0,255,0.2), transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(0,255,255,0.15), transparent 50%),
+                radial-gradient(circle at 20% 70%, rgba(255,128,128,0.15), transparent 50%);
+    filter: blur(120px);
     animation: driftNebula 200s linear infinite;
-  }
-  #nebula2 {
-    transform: scale(0.8) rotate(60deg);
-    opacity: 0.7;
-  }
-  @keyframes driftNebula {
-    from { transform: translate(0,0); }
-    to { transform: translate(-200px,-100px); }
+    mix-blend-mode: screen;
   }
 
-  /* --- GALAXIES --- */
+  @keyframes driftNebula {
+    from { transform: translate(0,0) rotate(0deg); }
+    to { transform: translate(-200px,-100px) rotate(360deg); }
+  }
+
+  /* Galaxies */
   .galaxy-layer {
     position: absolute;
-    width: 120%;
-    height: 120%;
-    top: -10%;
-    left: -10%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08), transparent 70%),
+                radial-gradient(circle at 30% 60%, rgba(255,200,255,0.06), transparent 60%);
+    filter: blur(100px);
+    animation: spinGalaxy 400s linear infinite;
+    mix-blend-mode: lighten;
+  }
+
+  @keyframes spinGalaxy {
+    from { transform: rotate(0deg) scale(1); }
+    to { transform: rotate(360deg) scale(1); }
+  }
+
+  /* Gradient lighting */
+  .gradient-lighting {
+    position: absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.05), transparent 70%),
+                radial-gradient(circle at 70% 60%, rgba(0,255,255,0.03), transparent 70%);
     pointer-events: none;
-    background-repeat: no-repeat;
-    background-size: contain;
     mix-blend-mode: screen;
-    opacity: 0.4;
-    animation: rotateGalaxy linear infinite;
-  }
-  #galaxy1 {
-    background-image: url('https://i.ibb.co/6X7R7QZ/spiral-galaxy.png');
-    animation-duration: 600s;
-  }
-  #galaxy2 {
-    background-image: url('https://i.ibb.co/s5sH4B0/spiral-galaxy-2.png');
-    animation-duration: 900s;
-  }
-  @keyframes rotateGalaxy {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
   }
 
   /* --- LOCK SCREEN --- */
@@ -194,17 +193,12 @@
   .game-container { display: none; flex-direction: column; height: 100%; }
   .game-controls { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px; }
   .game-iframe { width: 100%; flex: 1; border: none; border-radius: 12px; }
-
 </style>
 </head>
 <body>
 
-<!-- Stars & Nebula & Galaxies -->
-<div class="starfield" id="starfield"></div>
-<div class="nebula-layer" id="nebula1"></div>
-<div class="nebula-layer" id="nebula2"></div>
-<div class="galaxy-layer" id="galaxy1"></div>
-<div class="galaxy-layer" id="galaxy2"></div>
+<!-- Enhanced Galaxy Background -->
+<div class="galaxy-bg"></div>
 
 <!-- Password Screen -->
 <div class="card" id="lockCard">
@@ -333,19 +327,32 @@
     else if(gameIframe.msRequestFullscreen){ gameIframe.msRequestFullscreen(); }
   };
 
-  // --- STAR GENERATION ---
-  const starfield = document.getElementById("starfield");
+  // --- STARFIELD GENERATION ---
+  const galaxyBg = document.querySelector('.galaxy-bg');
+
   for(let i=0;i<300;i++){
-    const star = document.createElement("div");
-    star.className="star";
-    const size = Math.random()*2 + 1 + "px";
-    star.style.width = size;
-    star.style.height = size;
-    star.style.top = Math.random()*100 + "%";
-    star.style.left = Math.random()*100 + "%";
-    star.style.opacity = Math.random();
-    starfield.appendChild(star);
+    const star = document.createElement('div');
+    star.className='star';
+    const size = Math.random()*2+1+'px';
+    star.style.width=size;
+    star.style.height=size;
+    star.style.top=Math.random()*100+'%';
+    star.style.left=Math.random()*100+'%';
+    star.style.opacity=Math.random();
+    galaxyBg.appendChild(star);
   }
+
+  const nebula = document.createElement('div');
+  nebula.className='nebula-layer';
+  galaxyBg.appendChild(nebula);
+
+  const galaxy = document.createElement('div');
+  galaxy.className='galaxy-layer';
+  galaxyBg.appendChild(galaxy);
+
+  const lighting = document.createElement('div');
+  lighting.className='gradient-lighting';
+  galaxyBg.appendChild(lighting);
 </script>
 </body>
 </html>
