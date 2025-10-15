@@ -4,170 +4,125 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HTMS Gaming</title>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
-
   :root {
     --accent: #80d0ff;
     --text: #f3f9ff;
-    --nav-bg: rgba(0, 0, 0, 0.4);
-    --card-bg: rgba(255, 255, 255, 0.12);
+    --nav-bg: rgba(0,0,0,0.4);
+    --card-bg: rgba(255,255,255,0.12);
   }
 
   body {
-    margin: 0;
-    font-family: 'Orbitron', sans-serif;
+    margin:0;
+    font-family:'Comfortaa', cursive;
+    background:#0d0130;
     color: var(--text);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    background: radial-gradient(circle at bottom, #0d0130, #000010 90%);
-    position: relative;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    position:relative;
   }
 
-  /* --- GALAXY BACKGROUND --- */
-  .starfield, .nebula {
-    position: absolute;
-    top:0; left:0;
-    width: 100%; height: 100%;
-    pointer-events: none;
+  /* Enhanced Galaxy Background */
+  body::before {
+    content:"";
+    position:absolute;
+    top:0;left:0;
+    width:300%;height:300%;
+    background:
+      radial-gradient(circle at 100px 200px, #fff 1px, transparent 0),
+      radial-gradient(circle at 400px 800px, #fff 1.5px, transparent 0),
+      radial-gradient(circle at 800px 600px, #fff 2px, transparent 0),
+      radial-gradient(circle at 1200px 400px, #fff 1px, transparent 0),
+      radial-gradient(circle at 1600px 1000px, #fff 1.5px, transparent 0),
+      radial-gradient(circle at 200px 1400px, #fff 2px, transparent 0);
+    background-repeat: repeat;
+    background-size: 800px 800px;
+    animation: drift 200s linear infinite, twinkle 5s ease-in-out infinite alternate;
+    opacity:0.8;
+    z-index:-2;
+  }
+  body::after {
+    content:"";
+    position:absolute;
+    top:0;left:0;
+    width:100%;height:100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%),
+                radial-gradient(circle, rgba(128,0,255,0.03) 0%, transparent 60%),
+                radial-gradient(circle, rgba(0,255,255,0.02) 0%, transparent 50%);
+    z-index:-1;
+    animation: nebulaDrift 400s linear infinite;
   }
 
-  .star {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.7;
-    animation: twinkle 5s infinite alternate;
-  }
+  @keyframes drift{from{transform:translate(0,0);} to{transform:translate(-300px,-300px);}}
+  @keyframes twinkle{0%{opacity:0.4;}50%{opacity:0.8;}100%{opacity:0.5;}}
+  @keyframes nebulaDrift{0%{transform:translate(0,0);}100%{transform:translate(-500px,-200px);}}
 
-  @keyframes twinkle {
-    0% { opacity: 0.2; }
-    50% { opacity: 0.8; }
-    100% { opacity: 0.3; }
-  }
-
-  .nebula {
-    background: radial-gradient(circle at 40% 40%, rgba(128,0,255,0.2), transparent 50%),
-                radial-gradient(circle at 70% 70%, rgba(0,255,255,0.15), transparent 50%),
-                radial-gradient(circle at 20% 70%, rgba(255,128,128,0.15), transparent 50%);
-    filter: blur(80px);
-    animation: driftNebula 120s linear infinite;
-  }
-
-  @keyframes driftNebula {
-    from { transform: translate(0,0); }
-    to { transform: translate(-200px,-100px); }
-  }
-
-  /* --- LOCK SCREEN --- */
+  /* Lock Screen */
   .card {
     background: var(--card-bg);
-    padding: 30px;
-    border-radius: 25px;
-    text-align: center;
-    max-width: 380px;
-    width: 90%;
-    box-shadow: 0 0 25px rgba(128, 208, 255, 0.4);
-    backdrop-filter: blur(12px);
-    transition: all 0.4s ease;
-    z-index: 2;
-    position: relative;
+    padding:30px;
+    border-radius:25px;
+    text-align:center;
+    max-width:380px;
+    width:90%;
+    box-shadow:0 0 25px rgba(128,208,255,0.4);
+    backdrop-filter:blur(12px);
+    transition:all 0.4s ease;
   }
 
-  h1 { margin-bottom: 10px; }
-  input {
-    padding: 12px;
-    border-radius: 20px;
-    border: 2px solid var(--accent);
-    outline: none;
-    width: 80%;
-    margin-bottom: 10px;
-    font-size: 15px;
-    text-align: center;
-    background: transparent;
-    color: var(--text);
-  }
-  button {
-    background: var(--accent);
-    color: #0d0130;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    transition: transform 0.15s, background 0.2s;
-  }
-  button:hover { transform: scale(1.05); background: #a3e3ff; }
-  .msg { margin-top: 10px; color: #ff7575; font-size: 14px; }
+  input{padding:12px;border-radius:20px;border:2px solid var(--accent);outline:none;width:80%;margin-bottom:10px;font-size:15px;text-align:center;background:transparent;color:var(--text);}
+  button{background:var(--accent);color:#0d0130;border:none;border-radius:20px;padding:10px 20px;cursor:pointer;font-size:15px;font-weight:600;transition:0.2s;}
+  button:hover{transform:scale(1.05);background:#a3e3ff;}
+  .msg{margin-top:10px;color:#ff7575;font-size:14px;}
 
-  /* --- MAIN SITE --- */
-  .main-site { display: none; flex-direction: column; width: 100%; height: 100%; animation: fadeIn 0.8s ease forwards; z-index:2; position: relative;}
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
+  /* Main Site */
+  .main-site{display:none;flex-direction:column;width:100%;height:100%;animation:fadeIn 0.8s ease forwards;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+  .navbar{display:flex;justify-content:space-between;align-items:center;padding:14px 25px;background:var(--nav-bg);backdrop-filter:blur(8px);position:relative;}
+  .nav-left,.nav-center,.nav-right{font-weight:600;color:var(--text);cursor:pointer;transition:color 0.2s;}
+  .nav-left:hover,.nav-center:hover,.nav-right:hover{color:var(--accent);}
+  .nav-center{position:absolute;left:50%;transform:translateX(-50%);}
+  .content{flex:1;padding:25px;text-align:center;overflow:auto;}
+  .content h1{font-size:2rem;margin-bottom:10px;}
+  ul{list-style:none;padding:0;margin:0;}
+  ul li{margin:6px 0;}
 
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 25px;
-    background: var(--nav-bg);
-    backdrop-filter: blur(8px);
-    position: relative;
+  /* Games Grid */
+  #gamesGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:15px;overflow-y:auto;max-height:calc(100vh - 150px);}
+  .game-card{background:var(--card-bg);padding:10px;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .game-card h3{font-size:1rem;margin:5px;}
+  .game-card button{margin:3px;width:80%;}
+  .game-frame{width:100%;height:300px;border:none;border-radius:10px;margin-top:5px;}
+
+  /* Rainbow Text */
+  .rainbow-text{
+    font-weight:700;
+    font-size:1.2rem;
+    animation: rainbow 5s linear infinite;
+    margin-bottom:10px;
+  }
+  @keyframes rainbow{
+    0%{color:red;}10%{color:orange;}20%{color:yellow;}30%{color:green;}40%{color:blue;}50%{color:indigo;}60%{color:violet;}70%{color:red;}80%{color:orange;}90%{color:yellow;}100%{color:red;}
   }
 
-  .nav-left, .nav-center, .nav-right {
-    font-weight: 600;
-    color: var(--text);
-    cursor: pointer;
-    transition: color 0.2s;
-  }
-  .nav-left:hover, .nav-center:hover, .nav-right:hover { color: var(--accent); }
-  .nav-center { position: absolute; left: 50%; transform: translateX(-50%); }
-
-  .content { flex: 1; padding: 25px; text-align: center; overflow: hidden; }
-  .content h1 { font-size: 2rem; margin-bottom: 10px; }
-
-  /* --- Games Grid --- */
-  #gamesTab { display: none; height: calc(100vh - 80px); overflow-y: auto; padding-bottom: 20px; }
-  .games-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
-  }
-
-  .game-card {
-    background: var(--card-bg);
-    padding: 12px;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.2s;
-    font-size: 0.95rem;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  .game-card:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent); }
-
-  .game-container { display: none; flex-direction: column; height: 100%; }
-  .game-controls { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px; }
-  .game-iframe { width: 100%; flex: 1; border: none; border-radius: 12px; }
+  /* Chat */
+  .chat-container{display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .messages{width:90%;max-height:400px;background:rgba(0,0,0,0.3);overflow-y:auto;padding:10px;border-radius:10px;}
+  .message,.ai-message{margin:5px 0;padding:5px;border-radius:5px;}
+  .ai-message{background:rgba(128,208,255,0.2);color:#fff;font-style:italic;}
+  .chat-input{display:flex;gap:5px;margin-top:5px;}
+  .chat-input input{flex:1;}
 </style>
 </head>
 <body>
 
-<!-- Stars & Nebula -->
-<div class="starfield" id="starfield"></div>
-<div class="nebula"></div>
-
-<!-- Password Screen -->
+<!-- Lock Screen -->
 <div class="card" id="lockCard">
-  <h1>🚀 HTMS Gaming</h1>
+  <h1>🔒 HTMS Gaming Access</h1>
   <p>Enter password to enter the galaxy:</p>
   <input type="password" id="pw" placeholder="Password">
   <br>
@@ -179,134 +134,145 @@
 <div class="main-site" id="mainSite">
   <div class="navbar">
     <div class="nav-left" id="homeBtn">🏠 Home</div>
+    <div class="nav-center" id="announcementsBtn">📢 Announcements</div>
     <div class="nav-center" id="gamesBtn">🎮 Games</div>
+    <div class="nav-center" id="chatBtn">💬 Chat</div>
     <div class="nav-right" id="supportBtn">💫 Support</div>
+    <div class="nav-right" id="adminBtn">🛠️ Admin</div>
   </div>
 
+  <!-- Home -->
   <div class="content" id="homeTab">
     <h1>🌌 Welcome to HTMS Gaming</h1>
     <p>Explore your personal galaxy of fun and creativity.</p>
     <p>Credits To Chris (christopherafton on discord)</p>
   </div>
 
-  <div class="content" id="gamesTab">
-    <h1>🎮 Games</h1>
-    <div class="games-grid" id="gamesGrid"></div>
-    <div class="game-container" id="gameContainer">
-      <div class="game-controls">
-        <button id="backBtn">⬅ Back</button>
-        <button id="fullscreenBtn">⛶ Fullscreen</button>
+  <!-- Announcements -->
+  <div class="content" id="announcementsTab" style="display:none;">
+    <h1>📢 Announcements</h1>
+    <div id="announcementsList"></div>
+  </div>
+
+  <!-- Games -->
+  <div class="content" id="gamesTab" style="display:none;">
+    <h1 class="rainbow-text">Please finish your work before playing =)</h1>
+    <div id="gamesGrid"></div>
+  </div>
+
+  <!-- Chat -->
+  <div class="content" id="chatTab" style="display:none;">
+    <h1>💬 Global Chat</h1>
+    <div id="chatLogin">
+      <input id="nickname" placeholder="Enter nickname">
+      <input id="profilePic" placeholder="Profile picture URL (optional)">
+      <button id="loginChatBtn">Enter Chat</button>
+    </div>
+    <div id="chatRoom" style="display:none;" class="chat-container">
+      <div id="messages" class="messages"></div>
+      <div class="chat-input">
+        <input id="chatInput" placeholder="Type message...">
+        <button id="sendMsgBtn">Send</button>
       </div>
-      <iframe id="gameIframe" class="game-iframe"></iframe>
     </div>
   </div>
 
+  <!-- Support -->
   <div class="content" id="supportTab" style="display:none;">
     <h1>💫 Support</h1>
     <p>Suggestions and Bugs</p>
-    <p>THIS IS ONLY FOR SUGGESTIONS OR BUGS</p>
-    <a href="https://docs.google.com/forms/d/1PcSHuVaHrJn7vhyGADq3xJmxooL-KKKU2vyE_gwmOBs/" target="_blank">Submit Here</a>
+    <p><a href="https://docs.google.com/forms/d/1PcSHuVaHrJn7vhyGADq3xJmxooL-KKKU2vyE_gwmOBs/" target="_blank">THIS IS ONLY FOR SUGGESTIONS OR BUGS</a></p>
+  </div>
+
+  <!-- Admin Placeholder -->
+  <div class="content" id="adminTab" style="display:none;">
+    <h1>🛠️ Admin Panel</h1>
+    <p>Post announcements, manage chat, and more here.</p>
   </div>
 </div>
 
-<script>
-  // --- PASSWORD ---
-  const lockCard = document.getElementById("lockCard");
-  const mainSite = document.getElementById("mainSite");
-  const msg = document.getElementById("msg");
-
-  document.getElementById("unlockBtn").onclick = () => {
-    const input = document.getElementById("pw").value.trim();
-    if (input === "sixgraderise") {
-      lockCard.style.display = "none";
-      mainSite.style.display = "flex";
-    } else {
-      msg.textContent = "❌ Wrong password!";
-    }
+<script type="module">
+  // Password Lock
+  const STORED_HASH="425eff6720032338a0cea650966a475e074ddba46962a3995346dfaf273cf1d4";
+  const lockCard=document.getElementById("lockCard");
+  const mainSite=document.getElementById("mainSite");
+  const msg=document.getElementById("msg");
+  const pwInput=document.getElementById("pw");
+  async function sha256(text){const buffer=await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));return Array.from(new Uint8Array(buffer)).map(b=>b.toString(16).padStart(2,"0")).join("");}
+  document.getElementById("unlockBtn").onclick=async()=>{
+    const hash=await sha256(pwInput.value.trim());
+    if(hash===STORED_HASH){lockCard.style.display="none";mainSite.style.display="flex";}else{msg.textContent="❌ Wrong password!";}
   };
 
-  // --- TABS ---
-  const homeBtn = document.getElementById("homeBtn");
-  const gamesBtn = document.getElementById("gamesBtn");
-  const supportBtn = document.getElementById("supportBtn");
-  const homeTab = document.getElementById("homeTab");
-  const gamesTab = document.getElementById("gamesTab");
-  const supportTab = document.getElementById("supportTab");
+  // Tabs
+  const homeBtn=document.getElementById("homeBtn");
+  const announcementsBtn=document.getElementById("announcementsBtn");
+  const gamesBtn=document.getElementById("gamesBtn");
+  const chatBtn=document.getElementById("chatBtn");
+  const supportBtn=document.getElementById("supportBtn");
+  const adminBtn=document.getElementById("adminBtn");
 
-  function showTab(tab) {
-    [homeTab, gamesTab, supportTab].forEach(t => t.style.display = "none");
-    tab.style.display = "block";
-    if(tab === gamesTab){ document.getElementById("starfield").style.animationPlayState = "paused"; }
-    else{ document.getElementById("starfield").style.animationPlayState = "running"; }
+  const homeTab=document.getElementById("homeTab");
+  const announcementsTab=document.getElementById("announcementsTab");
+  const gamesTab=document.getElementById("gamesTab");
+  const chatTab=document.getElementById("chatTab");
+  const supportTab=document.getElementById("supportTab");
+  const adminTab=document.getElementById("adminTab");
+
+  function showTab(tab){
+    [homeTab,announcementsTab,gamesTab,chatTab,supportTab,adminTab].forEach(t=>t.style.display="none");
+    tab.style.display="block";
   }
-  homeBtn.onclick = () => showTab(homeTab);
-  gamesBtn.onclick = () => showTab(gamesTab);
-  supportBtn.onclick = () => showTab(supportTab);
 
-  // --- GAME CARDS ---
-  const gamesGrid = document.getElementById("gamesGrid");
-  const gameContainer = document.getElementById("gameContainer");
-  const gameIframe = document.getElementById("gameIframe");
-  const backBtn = document.getElementById("backBtn");
-  const fullscreenBtn = document.getElementById("fullscreenBtn");
+  homeBtn.onclick=()=>showTab(homeTab);
+  announcementsBtn.onclick=()=>showTab(announcementsTab);
+  gamesBtn.onclick=()=>showTab(gamesTab);
+  chatBtn.onclick=()=>showTab(chatTab);
+  supportBtn.onclick=()=>showTab(supportTab);
+  adminBtn.onclick=()=>showTab(adminTab);
 
-  const games = [
-    "1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html",
-    "Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html","Ball Blast.html",
-    "Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
-    "Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
-    "Chat Bot.html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html",
-    "Drift Boss.html","Drift Hunters.html","Five Nights at Freddy's 2.html","Five Nights at Freddy's 3.html",
-    "Five Nights at Freddy's 4.html","Five Nights at Freddy's.html","Five Nights at Freddy's_ Sister Location.html",
-    "Five Nights at Freddy's_ Ultimate Custom Night.html","Five Nights at Freddy's_ World.html",
-    "Five Nights at Winston's.html","Flappy Bird.html","Fruit Ninja.html","Half Life.html","Hollow Knight.html",
-    "Jelly Drift.html","Karlson.html","Money Rush.html","Paper.io 2.html","Pixel Gun Survival.html","Pizza Tower.html",
-    "Plinko.html","Pokemon Emerald.html","Pokemon Red.html","PortaBoy+.html","R.E.P.O.html","Raft.html",
-    "Sandboxels.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html",
-    "Subway Surfers_ San Francisco.html","Temple Run 2.html","That's Not My Neighbor.html","They Are Coming.html",
-    "Time Shooter 3_ SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html","Turbo Stars.html","World Box.html",
-    "minesweeper.html","Getting Over It with Bennett Foddy.html"
-  ];
-
-  games.forEach(file => {
-    let displayName = file.replace(".html","").replace(/_/g," ");
-    if(displayName.length>20){ displayName = displayName.slice(0,17)+"..."; }
-    const card = document.createElement("div");
-    card.className = "game-card";
-    card.textContent = displayName;
-    card.onclick = () => {
-      gamesGrid.style.display = "none";
-      gameContainer.style.display = "flex";
-      gameIframe.src = file;
-    };
-    gamesGrid.appendChild(card);
-  });
-
-  backBtn.onclick = () => {
-    gameContainer.style.display = "none";
-    gamesGrid.style.display = "grid";
-    gameIframe.src = "";
-  };
-
-  fullscreenBtn.onclick = () => {
-    if(gameIframe.requestFullscreen){ gameIframe.requestFullscreen(); }
-    else if(gameIframe.webkitRequestFullscreen){ gameIframe.webkitRequestFullscreen(); }
-    else if(gameIframe.msRequestFullscreen){ gameIframe.msRequestFullscreen(); }
-  };
-
-  // --- STARFIELD GENERATION ---
-  const starfield = document.getElementById("starfield");
-  for(let i=0;i<250;i++){
-    const star = document.createElement("div");
-    star.className="star";
-    const size = Math.random()*2 +1+"px";
-    star.style.width = size;
-    star.style.height = size;
-    star.style.top = Math.random()*100+"%";
-    star.style.left = Math.random()*100+"%";
-    star.style.opacity = Math.random();
-    starfield.appendChild(star);
-  }
-</script>
-</body>
-</html>
+  // Games List
+  const gamesList=[
+    {name:"1v1.LOL",file:"1v1.LoL.html"},
+    {name:"Ages of Conflict",file:"Ages of Conflict.html"},
+    {name:"Aviamasters",file:"Aviamasters.html"},
+    {name:"Bad Time Simulator",file:"Bad Time Simulator.html"},
+    {name:"Baldi's Basics Classic Remastered",file:"Baldi's Basics Classic Remastered.html"},
+    {name:"Baldi's Basics Plus",file:"Baldi's Basics Plus.html"},
+    {name:"Ball Blast",file:"Ball Blast.html"},
+    {name:"Basket Bros",file:"Basket Bros.html"},
+    {name:"Bendy and the Ink Machine",file:"Bendy and the Ink Machine.html"},
+    {name:"BlackJack",file:"BlackJack.html"},
+    {name:"Bottle Jump 3D",file:"Bottle Jump 3D.html"},
+    {name:"Bowmasters",file:"Bowmasters.html"},
+    {name:"Buckshot Roulette",file:"Buckshot Roulette.html"},
+    {name:"BuildNow.gg",file:"BuildNow.gg.html"},
+    {name:"Candy Crush",file:"Candy Crush.html"},
+    {name:"Chat Bot (A._.I)",file:"Chat Bot (A._.I).html"},
+    {name:"Cluster Rush",file:"Cluster Rush.html"},
+    {name:"Cookie Clicker",file:"Cookie Clicker.html"},
+    {name:"Crossy Road",file:"Crossy Road.html"},
+    {name:"Cuphead",file:"Cuphead.html"},
+    {name:"Drift Boss",file:"Drift Boss.html"},
+    {name:"Drift Hunters",file:"Drift Hunters.html"},
+    {name:"Five Nights at Freddy's 2",file:"Five Nights at Freddy's 2.html"},
+    {name:"Five Nights at Freddy's 3",file:"Five Nights at Freddy's 3.html"},
+    {name:"Five Nights at Freddy's 4",file:"Five Nights at Freddy's 4.html"},
+    {name:"Five Nights at Freddy's",file:"Five Nights at Freddy's.html"},
+    {name:"Five Nights at Freddy's Sister Location",file:"Five Nights at Freddy's_ Sister Location.html"},
+    {name:"Five Nights at Freddy's Ultimate Custom Night",file:"Five Nights at Freddy's_ Ultimate Custom Night.html"},
+    {name:"Five Nights at Freddy's World",file:"Five Nights at Freddy's_ World.html"},
+    {name:"Five Nights at Winston's",file:"Five Nights at Winston's.html"},
+    {name:"Flappy Bird",file:"Flappy Bird.html"},
+    {name:"Fruit Ninja",file:"Fruit Ninja.html"},
+    {name:"Half Life",file:"Half Life.html"},
+    {name:"Hollow Knight",file:"Hollow Knight.html"},
+    {name:"Jelly Drift",file:"Jelly Drift.html"},
+    {name:"Karlson",file:"Karlson.html"},
+    {name:"Money Rush",file:"Money Rush.html"},
+    {name:"Paper.io 2",file:"Paper.io 2.html"},
+    {name:"Pixel Gun Survival",file:"Pixel Gun Survival.html"},
+    {name:"Pizza Tower",file:"Pizza Tower.html"},
+    {name:"Plinko",file:"Plinko.html"},
+    {name:"Pokemon Emerald",file:"Pokemon Emerald.html"},
+    
