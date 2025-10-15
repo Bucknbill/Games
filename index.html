@@ -4,100 +4,118 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HTMS Gaming</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --accent: #80d0ff;
-  --text: #f3f9ff;
-  --nav-bg: rgba(0,0,0,0.4);
-  --card-bg: rgba(255,255,255,0.12);
-}
+  :root {
+    --accent: #80d0ff;
+    --text: #f3f9ff;
+    --nav-bg: rgba(0,0,0,0.4);
+    --card-bg: rgba(255,255,255,0.12);
+  }
 
-/* --- Body & Galaxy --- */
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at bottom, #0d0130, #000010 80%);
-  overflow: hidden;
-  color: var(--text);
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
+  body {
+    margin:0;
+    font-family:'Poppins', sans-serif;
+    background: radial-gradient(circle at bottom, #0d0130, #000010 80%);
+    overflow:hidden;
+    height:100vh;
+    color: var(--text);
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:center;
+  }
 
-body::before {
-  content:""; position:absolute; top:0; left:0; width:300%; height:300%;
-  background: radial-gradient(2px 2px at 20px 30px, #fff, transparent),
-              radial-gradient(1px 1px at 200px 400px, #fff, transparent),
-              radial-gradient(1.5px 1.5px at 600px 100px, #fff, transparent),
-              radial-gradient(2px 2px at 800px 700px, #fff, transparent),
-              radial-gradient(1px 1px at 1000px 200px, #fff, transparent),
-              radial-gradient(1.5px 1.5px at 1200px 800px, #fff, transparent),
-              radial-gradient(2px 2px at 400px 1200px, #fff, transparent);
-  background-repeat: repeat;
-  background-size: 800px 800px;
-  animation: drift 120s linear infinite, twinkle 5s ease-in-out infinite alternate;
-  z-index: -1;
-  opacity:0.7;
-}
-@keyframes drift{from{transform:translate(0,0);}to{transform:translate(-200px,-200px);}}
-@keyframes twinkle{0%{opacity:0.4;}50%{opacity:0.8;}100%{opacity:0.5;}}
+  canvas#bgCanvas {
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    z-index:-1;
+  }
 
-/* --- Lock Screen --- */
-.card {
-  background: var(--card-bg);
-  padding: 30px;
-  border-radius: 25px;
-  text-align: center;
-  max-width: 380px;
-  width: 90%;
-  box-shadow:0 0 25px rgba(128,208,255,0.4);
-  backdrop-filter: blur(12px);
-  margin:auto;
-  margin-top:100px;
-}
-h1,h2,h3{font-family:'Orbitron',sans-serif;}
-input {padding:12px; border-radius:20px; border:2px solid var(--accent); outline:none; width:80%; margin:5px 0; font-size:15px; text-align:center; background:transparent; color:var(--text);}
-button {background:var(--accent); color:#0d0130; border:none; border-radius:20px; padding:10px 20px; cursor:pointer; font-size:15px; font-weight:600; transition: transform 0.15s, background 0.2s;}
-button:hover{transform:scale(1.05); background:#a3e3ff;}
-.msg{margin-top:10px;color:#ff7575;font-size:14px;}
-.signupNote{font-size:0.8em;color:#cccccc;margin-top:5px;text-align:right;}
+  .card, .content, .chat-container, .games-grid {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding:20px;
+    box-shadow:0 0 25px rgba(128,208,255,0.4);
+    backdrop-filter:blur(12px);
+    transition:all 0.3s;
+  }
 
-/* --- Main Site --- */
-.main-site{display:none;flex-direction:column;height:100%;width:100%;animation:fadeIn 0.8s ease forwards;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-.navbar{display:flex;justify-content:space-between;align-items:center;padding:14px 25px;background:var(--nav-bg);backdrop-filter:blur(8px);position:relative;}
-.nav-left,.nav-center,.nav-right{font-weight:600;color:var(--text);cursor:pointer;transition:color 0.2s;}
-.nav-left:hover,.nav-center:hover,.nav-right:hover{color:var(--accent);}
-.nav-center{position:absolute;left:50%;transform:translateX(-50%);}
-.content{flex:1;padding:25px;text-align:center;display:none;overflow:auto;}
-.content h1{font-size:2rem;margin-bottom:10px;}
-ul{list-style:none;padding:0;margin:0;}
-ul li{margin:6px 0;}
+  .navbar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+    padding:10px 20px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(8px);
+    font-weight:600;
+    font-family:'Orbitron', sans-serif;
+    position:relative;
+  }
 
-/* --- Chat CSS --- */
-#chatMessages{max-height:300px; overflow-y:auto; background:rgba(255,255,255,0.05); border-radius:15px; padding:10px; margin-bottom:10px;}
-.chatMessage{margin:5px 0;}
-.displayName{font-weight:600;color:#80d0ff;margin-right:5px;}
-.username{font-size:0.8em;color:#cccccc;margin-right:5px;}
-.messageText{font-size:1em;color:var(--text);}
+  .nav-left,.nav-center,.nav-right,.nav-middle {
+    cursor:pointer;
+    color: var(--text);
+    margin:0 10px;
+  }
 
-/* --- Admin Button RGB --- */
-#adminBtn{padding:6px 12px;border-radius:12px;font-size:0.8em;font-weight:600;cursor:pointer;color:#fff;background:linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);background-size:400% 400%;animation:rainbowCycle 5s linear infinite;margin-left:10px;}
-@keyframes rainbowCycle{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+  .nav-left:hover,.nav-center:hover,.nav-right:hover,.nav-middle:hover {
+    color:var(--accent);
+  }
 
-/* --- Games Grid --- */
-.gamesGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:15px;max-height:400px;overflow-y:auto;}
-.gameCard{background:var(--card-bg);padding:10px;border-radius:15px;cursor:pointer;transition:all 0.2s;text-align:center;}
-.gameCard:hover{transform:scale(1.05);background:rgba(128,208,255,0.2);}
+  .nav-center { position:absolute; left:50%; transform:translateX(-50%);}
+  .nav-middle { position:absolute; left:50%; transform:translateX(70%);}
+
+  .tabs { width:95%; max-width:1200px; margin-top:15px; display:flex; justify-content:center; }
+
+  .content { display:none; width:95%; max-width:1200px; margin:20px auto; text-align:center; flex-direction:column; }
+
+  .active-tab { display:flex !important; flex-direction:column; }
+
+  /* Games Grid */
+  .games-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); grid-gap:15px; max-height:500px; overflow-y:auto; padding:10px; }
+
+  .game-card {
+    background: rgba(255,255,255,0.1);
+    border-radius:12px;
+    padding:10px;
+    text-align:center;
+    cursor:pointer;
+    transition: transform 0.2s;
+  }
+
+  .game-card:hover { transform:scale(1.05); }
+
+  /* Chat */
+  .chat-container { display:flex; flex-direction:column; max-height:500px; overflow-y:auto; padding:10px; }
+  .chat-message { margin:5px; padding:6px 10px; background: rgba(255,255,255,0.1); border-radius:12px; position:relative; }
+  .chat-message .author { font-weight:600; margin-right:5px; }
+  .chat-message button.report-btn { position:absolute; right:5px; top:5px; background:none; border:none; color:#ff7575; cursor:pointer; }
+  .chat-input { margin-top:10px; display:flex; }
+  .chat-input input { flex:1; padding:8px 12px; border-radius:12px; border:2px solid var(--accent); outline:none; }
+  .chat-input button { padding:8px 12px; margin-left:5px; border-radius:12px; border:none; background:var(--accent); cursor:pointer; color:#0d0130; font-weight:600; }
+  .chat-input button:hover { background:#a3e3ff; }
+
+  /* Profile */
+  .profile-editor { display:flex; flex-direction:column; gap:8px; max-width:400px; margin:0 auto; }
+  .profile-editor input, .profile-editor textarea { width:100%; padding:8px; border-radius:10px; border:2px solid var(--accent); background:transparent; color:var(--text); }
+
+  /* Admin Button */
+  .admin-btn { position:absolute; bottom:10px; right:20px; padding:6px 12px; border-radius:12px; font-weight:600; cursor:pointer; background:linear-gradient(45deg,#ff0000,#00ff00,#0000ff); background-size:300% 300%; animation:rainbow 5s linear infinite; }
+  @keyframes rainbow { 0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%} }
+
 </style>
 </head>
 <body>
 
-<!-- Password Screen -->
+<canvas id="bgCanvas"></canvas>
+
+<!-- Password Lock -->
 <div class="card" id="lockCard">
-  <h1>🔮 Stellar Access</h1>
-  <p>Enter password to enter HTMS Gaming:</p>
+  <h1>🔒 HTMS Gaming</h1>
+  <p>Enter password:</p>
   <input type="password" id="pw" placeholder="Password">
   <br>
   <button id="unlockBtn">Unlock</button>
@@ -105,67 +123,45 @@ ul li{margin:6px 0;}
 </div>
 
 <!-- Main Site -->
-<div class="main-site" id="mainSite">
+<div id="mainSite" style="display:none; width:100%; flex-direction:column; align-items:center;">
+
+  <!-- Navbar -->
   <div class="navbar">
     <div class="nav-left" id="homeBtn">🏠 Home</div>
-    <div class="nav-center" id="announcementsBtn">📢 Announcements</div>
-    <div class="nav-center" id="gamesBtn" style="left:60%;">🎮 Games</div>
-    <div class="nav-center" id="chatBtn" style="left:75%;">💬 Chat</div>
-    <div class="nav-right" id="supportBtn">💫 Support</div>
+    <div class="nav-center" id="annBtn">📢 Announcements</div>
+    <div class="nav-middle" id="gamesBtn">🎮 Games</div>
+    <div class="nav-right" id="chatBtn">💬 Chat</div>
+    <div class="nav-right" id="supportBtn" style="margin-left:20px;">💫 Support</div>
   </div>
 
   <!-- Home Tab -->
-  <div class="content" id="homeTab">
+  <div class="content active-tab" id="homeTab">
     <h1>🌌 Welcome to HTMS Gaming</h1>
     <p>Explore your personal galaxy of fun and creativity.</p>
     <p>Credits To Chris (christopherafton on discord)</p>
-    <div style="margin-top:50px; text-align:right;">
-      <button onclick="showAdminLogin()">Admin Login</button>
-    </div>
+    <label><input type="checkbox" id="toggleBG"> Enjoy the background?</label>
+    <div style="margin-top:10px; cursor:pointer;" id="adminLoginLink">Admin Login</div>
   </div>
 
   <!-- Announcements Tab -->
-  <div class="content" id="announcementsTab">
+  <div class="content" id="annTab">
     <h1>📢 Announcements</h1>
-    <div id="announcementsContainer">No announcements yet.</div>
+    <div id="announcementContent">No announcements yet.</div>
   </div>
 
   <!-- Games Tab -->
   <div class="content" id="gamesTab">
-    <h1 style="background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet); -webkit-background-clip: text; color: transparent;">Please finish your work before playing =)</h1>
-    <div class="gamesGrid" id="gamesGrid"></div>
+    <h2 style="font-weight:700; animation: rainbowCycle 5s linear infinite;">Please finish your work before playing =)</h2>
+    <div class="games-grid" id="gamesGrid"></div>
   </div>
 
   <!-- Chat Tab -->
   <div class="content" id="chatTab">
     <h1>HTMS Chat</h1>
-    <div id="chatAuthContainer">
-      <div>
-        <button id="showLogin">Login</button>
-        <button id="showSignup">Sign Up</button>
-      </div>
-      <div id="loginForm">
-        <input type="text" id="loginUsername" placeholder="Username">
-        <input type="password" id="loginPassword" placeholder="Password">
-        <button id="loginBtn">Login</button>
-        <p id="loginMsg"></p>
-        <button id="forgotPasswordBtn">Forgot Password?</button>
-      </div>
-      <div id="signupForm" style="display:none;">
-        <input type="text" id="signupUsername" placeholder="Username">
-        <input type="password" id="signupPassword" placeholder="Password">
-        <input type="text" id="displayName" placeholder="Display Name">
-        <input type="text" id="securityQuestion" placeholder="Security Question">
-        <input type="text" id="securityAnswer" placeholder="Answer">
-        <button id="signupBtn">Sign Up</button>
-        <p class="signupNote">(Please don't make it your school credentials. Make it unique and you can do whatever you like just don't do anything foolish.)</p>
-        <p id="signupMsg"></p>
-      </div>
-    </div>
-    <div id="chatContainer" style="display:none;">
-      <div id="chatMessages"></div>
-      <input type="text" id="chatInput" placeholder="Type message...">
-      <button id="sendChatBtn">Send</button>
+    <div class="chat-container" id="chatContainer"></div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Type a message...">
+      <button id="sendBtn">Send</button>
     </div>
   </div>
 
@@ -173,97 +169,150 @@ ul li{margin:6px 0;}
   <div class="content" id="supportTab">
     <h1>💫 Support</h1>
     <p>Suggestions and Bugs</p>
-    <a href="https://docs.google.com/forms/d/1PcSHuVaHrJn7vhyGADq3xJmxooL-KKKU2vyE_gwmOBs/" target="_blank">Submit Here</a>
-    <p>THIS IS ONLY FOR SUGGESTIONS OR BUGS</p>
+    <a href="https://docs.google.com/forms/d/1PcSHuVaHrJn7vhyGADq3xJmxooL-KKKU2vyE_gwmOBs/" target="_blank">THIS IS ONLY FOR SUGGESTIONS OR BUGS</a>
   </div>
 
-  <!-- Admin Tab (hidden by default) -->
+  <!-- Admin Panel -->
   <div class="content" id="adminTab">
-    <h1>Admin Panel</h1>
-    <p>Manage announcements, users, chat logs here.</p>
+    <h1>⚙️ Admin Panel</h1>
+    <div id="adminControls">
+      <p>Manage announcements, users, chat logs here.</p>
+    </div>
   </div>
+
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script>
-// SHA-256 website password: "sixgraderise"
-const STORED_HASH = "425eff6720032338a0cea650966a475e074ddba46962a3995346dfaf273cf1d4";
-const lockCard=document.getElementById("lockCard");
-const mainSite=document.getElementById("mainSite");
-const msg=document.getElementById("msg");
-const pwInput=document.getElementById("pw");
+  // -------------------------------
+  // Firebase Initialization
+  // -------------------------------
+  const firebaseConfig = {
+    apiKey: "AIzaSyAVIT4KcwdW07L8CdKr5rfhVCDHQofr-_8",
+    authDomain: "htmsgaming-97774.firebaseapp.com",
+    databaseURL: "https://htmsgaming-97774-default-rtdb.firebaseio.com",
+    projectId: "htmsgaming-97774",
+    storageBucket: "htmsgaming-97774.firebasestorage.app",
+    messagingSenderId: "336556100091",
+    appId: "1:336556100091:web:a84f3580ed346b5f22a35e",
+    measurementId: "G-YJRDGEPGSW"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
 
-async function sha256(text){
-  const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-  return Array.from(new Uint8Array(buffer)).map(b=>b.toString(16).padStart(2,"0")).join("");
-}
+  // -------------------------------
+  // Password Lock
+  // -------------------------------
+  const STORED_HASH = "425eff6720032338a0cea650966a475e074ddba46962a3995346dfaf273cf1d4"; // sixgraderise
+  const lockCard = document.getElementById("lockCard");
+  const mainSite = document.getElementById("mainSite");
+  const msg = document.getElementById("msg");
+  const pwInput = document.getElementById("pw");
 
-document.getElementById("unlockBtn").onclick=async()=>{
-  const input=pwInput.value.trim();
-  const hash=await sha256(input);
-  if(hash===STORED_HASH){lockCard.style.display="none";mainSite.style.display="flex";}
-  else{msg.textContent="❌ Wrong password!";}
-};
+  async function sha256(text) {
+    const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2,"0")).join("");
+  }
 
-// Tab system
-const homeBtn=document.getElementById("homeBtn");
-const announcementsBtn=document.getElementById("announcementsBtn");
-const gamesBtn=document.getElementById("gamesBtn");
-const chatBtn=document.getElementById("chatBtn");
-const supportBtn=document.getElementById("supportBtn");
-const homeTab=document.getElementById("homeTab");
-const announcementsTab=document.getElementById("announcementsTab");
-const gamesTab=document.getElementById("gamesTab");
-const chatTab=document.getElementById("chatTab");
-const supportTab=document.getElementById("supportTab");
-const adminTab=document.getElementById("adminTab");
-
-function showTab(tab){
-  [homeTab,announcementsTab,gamesTab,chatTab,supportTab,adminTab].forEach(t=>t.style.display="none");
-  tab.style.display="block";
-}
-
-homeBtn.onclick=()=>showTab(homeTab);
-announcementsBtn.onclick=()=>showTab(announcementsTab);
-gamesBtn.onclick=()=>showTab(gamesTab);
-chatBtn.onclick=()=>showTab(chatTab);
-supportBtn.onclick=()=>showTab(supportTab);
-
-// Admin login from Home
-function showAdminLogin(){
-  const pass=prompt("Enter Admin Password:");
-  if(pass==="jason121"){
-    if(!document.getElementById("adminBtn")){
-      const btn=document.createElement("div");
-      btn.id="adminBtn";
-      btn.textContent="Admin";
-      document.querySelector(".nav-right").appendChild(btn);
-      btn.onclick=()=>showTab(adminTab);
+  document.getElementById("unlockBtn").onclick = async () => {
+    const hash = await sha256(pwInput.value.trim());
+    if(hash === STORED_HASH){
+      lockCard.style.display="none";
+      mainSite.style.display="flex";
+    }else{
+      msg.textContent="❌ Wrong password!";
     }
-  }else alert("Wrong admin password!");
-}
+  };
 
-// --- Games List ---
-const gamesList=[
-"1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html","Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html",
-"Ball Blast.html","Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html","Bowmasters.html","Buckshot Roulette.html",
-"BuildNow.gg.html","Candy Crush.html","Chat Bot (A._.I).html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html","Drift Boss.html",
-"Drift Hunters.html","Five Nights at Freddy's 2.html","Five Nights at Freddy's 3.html","Five Nights at Freddy's 4.html","Five Nights at Freddy's.html",
-"Five Nights at Freddy's_ Sister Location.html","Five Nights at Freddy's_ Ultimate Custom Night.html","Five Nights at Freddy's_ World.html","Five Nights at Winston's.html",
-"Flappy Bird.html","Fruit Ninja.html","Half Life.html","Hollow Knight.html","Jelly Drift.html","Karlson.html","Money Rush.html","Paper.io 2.html",
-"Pixel Gun Survival.html","Pizza Tower.html","Plinko.html","Pokemon Emerald.html","Pokemon Red.html","PortaBoy+.html","R.E.P.O.html","Raft.html","Sandboxels.html",
-"Slender_ The 8 Pages.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html","Subway Surfers_ San Francisco.html","Temple Run 2.html",
-"That's Not My Neighbor.html","They Are Coming.html","Time Shooter 3_ SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html","Turbo Stars.html","World Box.html",
-"minesweeper.html","Getting Over It with Bennett Foddy.html"
-];
+  // -------------------------------
+  // Tabs
+  // -------------------------------
+  const homeBtn = document.getElementById("homeBtn");
+  const annBtn = document.getElementById("annBtn");
+  const gamesBtn = document.getElementById("gamesBtn");
+  const chatBtn = document.getElementById("chatBtn");
+  const supportBtn = document.getElementById("supportBtn");
 
-const gamesGrid=document.getElementById("gamesGrid");
-gamesList.forEach(game=>{
-  const card=document.createElement("div");
-  card.className="gameCard";
-  card.textContent=game.replace(".html","");
-  card.onclick=()=>{window.open(`games/${game}`,"_self");};
-  gamesGrid.appendChild(card);
-});
-</script>
-</body>
-</html>
+  const homeTab = document.getElementById("homeTab");
+  const annTab = document.getElementById("annTab");
+  const gamesTab = document.getElementById("gamesTab");
+  const chatTab = document.getElementById("chatTab");
+  const supportTab = document.getElementById("supportTab");
+  const adminTab = document.getElementById("adminTab");
+
+  function showTab(tab){
+    [homeTab,annTab,gamesTab,chatTab,supportTab,adminTab].forEach(t=>t.classList.remove("active-tab"));
+    tab.classList.add("active-tab");
+  }
+
+  homeBtn.onclick=()=>showTab(homeTab);
+  annBtn.onclick=()=>showTab(annTab);
+  gamesBtn.onclick=()=>showTab(gamesTab);
+  chatBtn.onclick=()=>showTab(chatTab);
+  supportBtn.onclick=()=>showTab(supportTab);
+
+  // -------------------------------
+  // Galaxy Background
+  // -------------------------------
+  const canvas = document.getElementById("bgCanvas");
+  const ctx = canvas.getContext("2d");
+  let stars=[], w=window.innerWidth, h=window.innerHeight;
+  canvas.width=w; canvas.height=h;
+
+  function initStars(num=200){
+    stars=[];
+    for(let i=0;i<num;i++){
+      stars.push({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        r: Math.random()*1.5+0.5,
+        dx:(Math.random()-0.5)/2,
+        dy:(Math.random()-0.5)/2
+      });
+    }
+  }
+
+  function drawStars(){
+    ctx.clearRect(0,0,w,h);
+    stars.forEach(s=>{
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle="white";
+      ctx.fill();
+      s.x+=s.dx; s.y+=s.dy;
+      if(s.x<0)s.x=w;if(s.x>w)s.x=0;
+      if(s.y<0)s.y=h;if(s.y>h)s.y=0;
+    });
+    requestAnimationFrame(drawStars);
+  }
+
+  initStars(400);
+  drawStars();
+
+  document.getElementById("toggleBG").addEventListener("change",(e)=>{
+    if(!e.target.checked){ ctx.clearRect(0,0,w,h); } else { drawStars(); }
+  });
+
+  // -------------------------------
+  // Games Tab (auto-load games)
+  // -------------------------------
+  const gamesGrid = document.getElementById("gamesGrid");
+  const gamesList = [
+    "1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html",
+    "Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html","Ball Blast.html",
+    "Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
+    "Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
+    "Chat Bot (A._.I).html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html",
+    "Cuphead.html","Drift Boss.html","Drift Hunters.html","Five Nights at Freddy's 2.html",
+    "Five Nights at Freddy's 3.html","Five Nights at Freddy's 4.html","Five Nights at Freddy's.html",
+    "Five Nights at Freddy's_ Sister Location.html","Five Nights at Freddy's_ Ultimate Custom Night.html",
+    "Five Nights at Freddy's_ World.html","Five Nights at Winston's.html","Flappy Bird.html",
+    "Fruit Ninja.html","Half Life.html","Hollow Knight.html","Jelly Drift.html","Karlson.html",
+    "Money Rush.html","Paper.io 2.html","Pixel Gun Survival.html","Pizza Tower.html","Plinko.html",
+    "Pokemon Emerald.html","Pokemon Red.html","PortaBoy+.html","R.E.P.O.html","Raft.html",
+    "Sandboxels.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html",
+    "Subway Surfers_ San Francisco.html","Temple Run 2.html","That's Not My Neighbor.html",
+    "They Are Coming.html","Time Shooter 3_ SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html",
+    "Turbo Stars.html","World Box.html","minesweeper.html","Getting Over It with Bennett Foddy.html
