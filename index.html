@@ -163,20 +163,10 @@
     margin-bottom: 10px;
   }
 
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  ul li {
-    margin: 6px 0;
-  }
-
   /* --- Games Grid --- */
   .games-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
     margin-top: 20px;
   }
@@ -188,6 +178,11 @@
     cursor: pointer;
     transition: transform 0.15s, box-shadow 0.2s;
     font-size: 0.95rem;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 
   .game-card:hover {
@@ -221,7 +216,7 @@
 
 <!-- Password Screen -->
 <div class="card" id="lockCard">
-  <h1>🔮 Stellar Access</h1>
+  <h1>🚀 Welcome to HTMS Gaming</h1>
   <p>Enter password to enter the galaxy:</p>
   <input type="password" id="pw" placeholder="Password">
   <br>
@@ -246,10 +241,9 @@
   <div class="content" id="gamesTab" style="display:none;">
     <h1>🎮 Games</h1>
     <div class="games-grid" id="gamesGrid">
-      <!-- Game cards will be generated here by JS -->
+      <!-- Game cards will be generated here -->
     </div>
 
-    <!-- Game display container -->
     <div class="game-container" id="gameContainer">
       <div class="game-controls">
         <button id="backBtn">⬅ Back</button>
@@ -274,122 +268,4 @@
   const lockCard = document.getElementById("lockCard");
   const mainSite = document.getElementById("mainSite");
   const msg = document.getElementById("msg");
-  const pwInput = document.getElementById("pw");
-
-  async function sha256(text) {
-    const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-    return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("");
-  }
-
-  document.getElementById("unlockBtn").onclick = async () => {
-    const input = pwInput.value.trim();
-    const hash = await sha256(input);
-    if (hash === STORED_HASH) {
-      lockCard.style.display = "none";
-      mainSite.style.display = "flex";
-    } else {
-      msg.textContent = "❌ Wrong password!";
-    }
-  };
-
-  // Tab system
-  const homeBtn = document.getElementById("homeBtn");
-  const gamesBtn = document.getElementById("gamesBtn");
-  const supportBtn = document.getElementById("supportBtn");
-  const homeTab = document.getElementById("homeTab");
-  const gamesTab = document.getElementById("gamesTab");
-  const supportTab = document.getElementById("supportTab");
-
-  function showTab(tab) {
-    [homeTab, gamesTab, supportTab].forEach(t => t.style.display = "none");
-    tab.style.display = "block";
-  }
-
-  homeBtn.onclick = () => showTab(homeTab);
-  gamesBtn.onclick = () => showTab(gamesTab);
-  supportBtn.onclick = () => showTab(supportTab);
-
-  // List of unique games (ignore clones with parentheses)
-  const games = [
-    "1v1.LoL.html",
-    "Ages of Conflict.html",
-    "Aviamasters.html",
-    "Bad Time Simulator.html",
-    "Baldi's Basics Classic Remastered.html",
-    "Baldi's Basics Plus.html",
-    "Ball Blast.html",
-    "Basket Bros.html",
-    "Bendy and the Ink Machine.html",
-    "BlackJack.html",
-    "Bottle Jump 3D.html",
-    "Bowmasters.html",
-    "Buckshot Roulette.html",
-    "BuildNow.gg.html",
-    "Candy Crush.html",
-    "Chat Bot (A._.I).html",
-    "Cluster Rush.html",
-    "Cookie Clicker.html",
-    "Crossy Road.html",
-    "Cuphead.html",
-    "Drift Boss.html",
-    "Drift Hunters.html",
-    "Five Nights at Freddy's 2.html",
-    "Five Nights at Freddy's 3.html",
-    "Five Nights at Freddy's 4.html",
-    "Five Nights at Freddy's.html",
-    "Five Nights at Freddy's_ Sister Location.html",
-    "Five Nights at Freddy's_ Ultimate Custom Night.html",
-    "Five Nights at Freddy's_ World.html",
-    "Five Nights at Winston's.html",
-    "Flappy Bird.html",
-    "Fruit Ninja.html",
-    "Half Life.html",
-    "Hollow Knight.html",
-    "Jelly Drift.html",
-    "Karlson.html",
-    "Money Rush.html",
-    "Paper.io 2.html",
-    "Pixel Gun Survival.html",
-    "Pizza Tower.html",
-    "Plinko.html",
-    "Pokemon Emerald.html"
-  ];
-
-  const gamesGrid = document.getElementById("gamesGrid");
-  const gameContainer = document.getElementById("gameContainer");
-  const gameIframe = document.getElementById("gameIframe");
-  const backBtn = document.getElementById("backBtn");
-  const fullscreenBtn = document.getElementById("fullscreenBtn");
-
-  // Generate game cards
-  games.forEach(game => {
-    const card = document.createElement("div");
-    card.className = "game-card";
-    card.textContent = game.replace(".html","");
-    card.onclick = () => {
-      gamesGrid.style.display = "none";
-      gameContainer.style.display = "flex";
-      gameIframe.src = `./Games/${game}`;
-    };
-    gamesGrid.appendChild(card);
-  });
-
-  backBtn.onclick = () => {
-    gameIframe.src = "";
-    gameContainer.style.display = "none";
-    gamesGrid.style.display = "grid";
-  };
-
-  fullscreenBtn.onclick = () => {
-    if (gameIframe.requestFullscreen) {
-      gameIframe.requestFullscreen();
-    } else if (gameIframe.webkitRequestFullscreen) {
-      gameIframe.webkitRequestFullscreen();
-    } else if (gameIframe.msRequestFullscreen) {
-      gameIframe.msRequestFullscreen();
-    }
-  };
-
-</script>
-</body>
-</html>
+  const pwInput = document.getElementBy
