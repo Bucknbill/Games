@@ -5,186 +5,185 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HTMS Gaming</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-  :root {
-    --accent: #80d0ff;
-    --text: #f3f9ff;
-    --nav-bg: rgba(0, 0, 0, 0.4);
-    --card-bg: rgba(255, 255, 255, 0.12);
-  }
+:root {
+  --accent: #80d0ff;
+  --text: #f3f9ff;
+  --nav-bg: rgba(0, 0, 0, 0.4);
+  --card-bg: rgba(255, 255, 255, 0.12);
+}
 
-  body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at bottom, #0d0130, #000010 80%);
-    overflow: hidden;
-    height: 100vh;
-    color: var(--text);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at bottom, #0d0130, #000010 80%);
+  overflow: hidden;
+  height: 100vh;
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  /* --- GALAXY BACKGROUND ANIMATION --- */
-  body::before, body::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0;
-    width: 300%; height: 300%;
-    background-image:
-      radial-gradient(2px 2px at 20px 30px, white, transparent),
-      radial-gradient(1px 1px at 200px 400px, white, transparent),
-      radial-gradient(1.5px 1.5px at 600px 100px, white, transparent),
-      radial-gradient(2px 2px at 800px 700px, white, transparent),
-      radial-gradient(1px 1px at 1000px 200px, white, transparent),
-      radial-gradient(1.5px 1.5px at 1200px 800px, white, transparent),
-      radial-gradient(2px 2px at 400px 1200px, white, transparent);
-    background-repeat: repeat;
-    background-size: 800px 800px;
-    animation: drift 120s linear infinite, twinkle 5s ease-in-out infinite alternate;
-    z-index: -1;
-    opacity: 0.7;
-  }
+/* --- GALAXY BACKGROUND (MORE STARS) --- */
+body::before, body::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 400%; height: 400%;
+  background-image:
+    radial-gradient(1px 1px at 10px 20px, white, transparent),
+    radial-gradient(1px 1px at 50px 120px, white, transparent),
+    radial-gradient(1.5px 1.5px at 200px 400px, white, transparent),
+    radial-gradient(2px 2px at 400px 600px, white, transparent),
+    radial-gradient(1px 1px at 600px 300px, white, transparent),
+    radial-gradient(1.5px 1.5px at 900px 800px, white, transparent),
+    radial-gradient(2px 2px at 1200px 400px, white, transparent),
+    radial-gradient(1px 1px at 1500px 1000px, white, transparent),
+    radial-gradient(1.5px 1.5px at 1800px 200px, white, transparent),
+    radial-gradient(2px 2px at 2000px 700px, white, transparent);
+  background-repeat: repeat;
+  background-size: 800px 800px;
+  animation: drift 120s linear infinite, twinkle 5s ease-in-out infinite alternate;
+  z-index: -1;
+  opacity: 0.7;
+}
 
-  @keyframes drift {
-    from { transform: translate(0, 0); }
-    to { transform: translate(-200px, -200px); }
-  }
+@keyframes drift { from { transform: translate(0,0); } to { transform: translate(-400px,-400px); } }
+@keyframes twinkle { 0% { opacity:0.4; } 50% { opacity:0.8; } 100% { opacity:0.5; } }
 
-  @keyframes twinkle {
-    0% { opacity: 0.4; }
-    50% { opacity: 0.8; }
-    100% { opacity: 0.5; }
-  }
+/* --- LOCK SCREEN --- */
+.card {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 25px;
+  text-align: center;
+  max-width: 380px;
+  width: 90%;
+  box-shadow: 0 0 25px rgba(128,208,255,0.4);
+  backdrop-filter: blur(12px);
+  transition: all 0.4s ease;
+}
 
-  /* --- LOCK SCREEN --- */
-  .card {
-    background: var(--card-bg);
-    padding: 30px;
-    border-radius: 25px;
-    text-align: center;
-    max-width: 380px;
-    width: 90%;
-    box-shadow: 0 0 25px rgba(128, 208, 255, 0.4);
-    backdrop-filter: blur(12px);
-    transition: all 0.4s ease;
-  }
+h1 { margin-bottom: 10px; }
 
-  h1 {
-    margin-bottom: 10px;
-  }
+input {
+  padding: 12px;
+  border-radius: 20px;
+  border: 2px solid var(--accent);
+  outline: none;
+  width: 80%;
+  margin-bottom: 10px;
+  font-size: 15px;
+  text-align: center;
+  background: transparent;
+  color: var(--text);
+}
 
-  input {
-    padding: 12px;
-    border-radius: 20px;
-    border: 2px solid var(--accent);
-    outline: none;
-    width: 80%;
-    margin-bottom: 10px;
-    font-size: 15px;
-    text-align: center;
-    background: transparent;
-    color: var(--text);
-  }
+button {
+  background: var(--accent);
+  color: #0d0130;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: transform 0.15s, background 0.2s;
+}
 
-  button {
-    background: var(--accent);
-    color: #0d0130;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    transition: transform 0.15s, background 0.2s;
-  }
+button:hover { transform: scale(1.05); background: #a3e3ff; }
 
-  button:hover {
-    transform: scale(1.05);
-    background: #a3e3ff;
-  }
+.msg { margin-top: 10px; color: #ff7575; font-size: 14px; }
 
-  .msg {
-    margin-top: 10px;
-    color: #ff7575;
-    font-size: 14px;
-  }
+/* --- MAIN SITE --- */
+.main-site {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  animation: fadeIn 0.8s ease forwards;
+}
 
-  /* --- MAIN SITE --- */
-  .main-site {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    animation: fadeIn 0.8s ease forwards;
-  }
+@keyframes fadeIn { from {opacity:0; transform: translateY(20px);} to {opacity:1; transform: translateY(0);} }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px);}
-    to { opacity: 1; transform: translateY(0);}
-  }
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 25px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 10;
+}
 
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 25px;
-    background: var(--nav-bg);
-    backdrop-filter: blur(8px);
-    position: relative;
-  }
+.nav-left, .nav-center, .nav-right {
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: color 0.2s;
+}
 
-  .nav-left, .nav-center, .nav-right {
-    font-weight: 600;
-    color: var(--text);
-    cursor: pointer;
-    transition: color 0.2s;
-  }
+.nav-left:hover, .nav-center:hover, .nav-right:hover { color: var(--accent); }
+.nav-center { position: absolute; left:50%; transform:translateX(-50%); }
 
-  .nav-left:hover, .nav-center:hover, .nav-right:hover {
-    color: var(--accent);
-  }
+.content {
+  flex:1;
+  padding:25px;
+  text-align:center;
+  opacity:0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
 
-  .nav-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+.active { opacity:1; transform: translateY(0); }
 
-  .content {
-    flex: 1;
-    padding: 25px;
-    text-align: center;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
+a { color: var(--accent); text-decoration:none; font-weight:600; }
+a:hover { text-decoration:underline; }
 
-  .active {
-    opacity: 1;
-    transform: translateY(0);
-  }
+ul { list-style:none; padding:0; margin:0; }
+ul li { margin:6px 0; }
 
-  a {
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: 600;
-  }
+/* --- GAME CARDS --- */
+.game-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 15px;
+  margin: 10px auto;
+  max-width: 300px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(128,208,255,0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
 
-  a:hover {
-    text-decoration: underline;
-  }
+.game-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(128,208,255,0.5);
+}
 
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+/* --- IFRAME VIEW --- */
+#gameFrameContainer {
+  display:none;
+  flex-direction:column;
+  align-items:center;
+}
 
-  ul li {
-    margin: 6px 0;
-  }
+#gameFrame {
+  width:90%;
+  height:70vh;
+  border-radius:20px;
+  border:none;
+  box-shadow:0 0 25px rgba(128,208,255,0.4);
+}
+
+.game-buttons {
+  margin:10px;
+}
+.game-buttons button {
+  margin:0 10px;
+}
 </style>
 </head>
 <body>
@@ -207,17 +206,34 @@
     <div class="nav-right" id="supportBtn">💫 Support</div>
   </div>
 
+  <!-- Home -->
   <div class="content active" id="homeTab">
     <h1>🌌 Welcome to HTMS Gaming</h1>
     <p>Explore your world of fun and creativity.</p>
     <p>Credits To Chris (christopherafton on discord)</p>
   </div>
 
+  <!-- Games -->
   <div class="content" id="gamesTab">
     <h1>🎮 Games</h1>
-    <p>Here’s where your games will live soon!</p>
+    <div id="gamesList">
+      <!-- Example game cards -->
+      <div class="game-card" data-src="https://bucknbill.github.io/Games/game1.html">Game 1</div>
+      <div class="game-card" data-src="https://bucknbill.github.io/Games/game2.html">Game 2</div>
+      <div class="game-card" data-src="https://bucknbill.github.io/Games/game3.html">Game 3</div>
+      <!-- Add more cards with your actual HTML file links -->
+    </div>
+
+    <div id="gameFrameContainer">
+      <div class="game-buttons">
+        <button id="backBtn">⬅ Back</button>
+        <button id="fullscreenBtn">⛶ Fullscreen</button>
+      </div>
+      <iframe id="gameFrame"></iframe>
+    </div>
   </div>
 
+  <!-- Support -->
   <div class="content" id="supportTab">
     <h1>🪐 Suggestions and Bugs</h1>
     <p>This is only for suggestions or bugs.</p>
@@ -226,53 +242,81 @@
 </div>
 
 <script>
-  // SHA-256 hash of "sixgraderise"
-  const STORED_HASH = "425eff6720032338a0cea650966a475e074ddba46962a3995346dfaf273cf1d4";
+// SHA-256 password
+const STORED_HASH = "425eff6720032338a0cea650966a475e074ddba46962a3995346dfaf273cf1d4";
+const lockCard = document.getElementById("lockCard");
+const mainSite = document.getElementById("mainSite");
+const msg = document.getElementById("msg");
+const pwInput = document.getElementById("pw");
 
-  const lockCard = document.getElementById("lockCard");
-  const mainSite = document.getElementById("mainSite");
-  const msg = document.getElementById("msg");
-  const pwInput = document.getElementById("pw");
+async function sha256(text){
+  const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buffer)).map(b=>b.toString(16).padStart(2,"0")).join("");
+}
 
-  async function sha256(text) {
-    const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-    return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("");
+document.getElementById("unlockBtn").onclick = async () => {
+  const input = pwInput.value.trim();
+  const hash = await sha256(input);
+  if(hash === STORED_HASH){
+    lockCard.style.display="none";
+    mainSite.style.display="flex";
+  } else { msg.textContent="❌ Wrong password!"; }
+};
+
+// Tabs with fade
+const tabs = {
+  homeBtn: document.getElementById("homeTab"),
+  gamesBtn: document.getElementById("gamesTab"),
+  supportBtn: document.getElementById("supportTab")
+};
+
+function showTab(tabId){
+  Object.values(tabs).forEach(tab=>tab.classList.remove("active"));
+  setTimeout(()=>{
+    Object.values(tabs).forEach(tab=>tab.style.display="none");
+    const tab = tabs[tabId];
+    tab.style.display="block";
+    setTimeout(()=>tab.classList.add("active"),10);
+  },100);
+}
+
+document.getElementById("homeBtn").onclick = ()=>showTab("homeBtn");
+document.getElementById("gamesBtn").onclick = ()=>showTab("gamesBtn");
+document.getElementById("supportBtn").onclick = ()=>showTab("supportBtn");
+
+// Default active tab
+tabs.homeBtn.style.display="block";
+
+// Game card click
+const gamesList = document.getElementById("gamesList");
+const gameFrameContainer = document.getElementById("gameFrameContainer");
+const gameFrame = document.getElementById("gameFrame");
+const backBtn = document.getElementById("backBtn");
+const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+gamesList.querySelectorAll(".game-card").forEach(card=>{
+  card.onclick = ()=>{
+    gamesList.style.display="none";
+    gameFrameContainer.style.display="flex";
+    gameFrame.src = card.dataset.src;
   }
+});
 
-  document.getElementById("unlockBtn").onclick = async () => {
-    const input = pwInput.value.trim();
-    const hash = await sha256(input);
-    if (hash === STORED_HASH) {
-      lockCard.style.display = "none";
-      mainSite.style.display = "flex";
-    } else {
-      msg.textContent = "❌ Wrong password!";
-    }
-  };
+backBtn.onclick = ()=>{
+  gameFrame.src="";
+  gameFrameContainer.style.display="none";
+  gamesList.style.display="block";
+}
 
-  // Tab system with fade
-  const tabs = {
-    homeBtn: document.getElementById("homeTab"),
-    gamesBtn: document.getElementById("gamesTab"),
-    supportBtn: document.getElementById("supportTab")
-  };
-
-  function showTab(tabId) {
-    Object.values(tabs).forEach(tab => tab.classList.remove("active"));
-    setTimeout(() => {
-      Object.values(tabs).forEach(tab => tab.style.display = "none");
-      const tab = tabs[tabId];
-      tab.style.display = "block";
-      setTimeout(() => tab.classList.add("active"), 10);
-    }, 100);
+fullscreenBtn.onclick = ()=>{
+  if(gameFrame.requestFullscreen){
+    gameFrame.requestFullscreen();
+  } else if(gameFrame.webkitRequestFullscreen){
+    gameFrame.webkitRequestFullscreen();
+  } else if(gameFrame.msRequestFullscreen){
+    gameFrame.msRequestFullscreen();
   }
-
-  document.getElementById("homeBtn").onclick = () => showTab("homeBtn");
-  document.getElementById("gamesBtn").onclick = () => showTab("gamesBtn");
-  document.getElementById("supportBtn").onclick = () => showTab("supportBtn");
-
-  // Default active tab
-  tabs.homeBtn.style.display = "block";
+}
 </script>
 </body>
 </html>
