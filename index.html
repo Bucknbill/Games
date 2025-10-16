@@ -5,157 +5,152 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HTMS Gaming</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
 
-:root {
-  --accent: #80d0ff;
-  --text: #f3f9ff;
-  --nav-bg: rgba(0, 0, 0, 0.4);
-  --card-bg: rgba(255, 255, 255, 0.12);
-}
+  :root {
+    --accent: #80d0ff;
+    --text: #f3f9ff;
+    --nav-bg: rgba(0, 0, 0, 0.4);
+    --card-bg: rgba(255, 255, 255, 0.12);
+  }
 
-body {
-  margin: 0;
-  font-family: 'Orbitron', sans-serif;
-  color: var(--text);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  background: radial-gradient(circle at bottom, #0d0130, #000010 90%);
-  position: relative;
-}
+  body {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: radial-gradient(circle at bottom, #0d0130, #000010 90%);
+    position: relative;
+  }
 
-/* --- GALAXY BACKGROUND --- */
-.starfield, .nebula1, .nebula2, .galaxy1, .galaxy2 {
-  position: absolute;
-  top:0; left:0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-}
-.star {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.7;
-  animation: twinkle 5s infinite alternate;
-}
-@keyframes twinkle {
-  0% { opacity: 0.2; }
-  50% { opacity: 0.8; }
-  100% { opacity: 0.3; }
-}
-.nebula1, .nebula2 {
-  filter: blur(100px);
-  animation: driftNebula 180s linear infinite;
-}
-.nebula1 { background: radial-gradient(circle at 30% 30%, rgba(128,0,255,0.3), transparent 50%); }
-.nebula2 { background: radial-gradient(circle at 70% 70%, rgba(0,255,255,0.2), transparent 50%); }
-@keyframes driftNebula { from { transform: translate(0,0); } to { transform: translate(-200px,-100px); } }
-.galaxy1, .galaxy2 {
-  border-radius: 50%;
-  filter: blur(120px);
-  width: 400px; height: 400px;
-}
-.galaxy1 { background: radial-gradient(circle, rgba(255,255,255,0.04), transparent 60%); top: 20%; left: 30%; animation: rotateGalaxy 400s linear infinite; }
-.galaxy2 { background: radial-gradient(circle, rgba(255,255,255,0.03), transparent 60%); top: 50%; left: 60%; animation: rotateGalaxy 350s linear infinite; }
-@keyframes rotateGalaxy { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  /* --- GALAXY BACKGROUND --- */
+  .starfield, .nebula1, .nebula2, .galaxy1, .galaxy2 {
+    position: absolute;
+    top:0; left:0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
 
-/* --- LOCK SCREEN --- */
-.card {
-  background: var(--card-bg);
-  padding: 30px;
-  border-radius: 25px;
-  text-align: center;
-  max-width: 380px;
-  width: 90%;
-  box-shadow: 0 0 25px rgba(128, 208, 255, 0.4);
-  backdrop-filter: blur(12px);
-  transition: all 0.4s ease;
-  z-index: 2;
-  position: relative;
-}
-h1 { margin-bottom: 10px; }
-input {
-  padding: 12px;
-  border-radius: 20px;
-  border: 2px solid var(--accent);
-  outline: none;
-  width: 80%;
-  margin-bottom: 10px;
-  font-size: 15px;
-  text-align: center;
-  background: transparent;
-  color: var(--text);
-}
-button {
-  background: var(--accent);
-  color: #0d0130;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  transition: transform 0.15s, background 0.2s;
-}
-button:hover { transform: scale(1.05); background: #a3e3ff; }
-.msg { margin-top: 10px; color: #ff7575; font-size: 14px; }
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: twinkle 5s infinite alternate;
+  }
 
-/* --- MAIN SITE --- */
-.main-site { display: none; flex-direction: column; width: 100%; height: 100%; animation: fadeIn 0.8s ease forwards; z-index:2; position: relative;}
-@keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
+  @keyframes twinkle {
+    0% { opacity: 0.2; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.3; }
+  }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 25px;
-  background: var(--nav-bg);
-  backdrop-filter: blur(8px);
-  position: relative;
-}
-.nav-left, .nav-center, .nav-right { font-weight: 600; color: var(--text); cursor: pointer; transition: color 0.2s; }
-.nav-left:hover, .nav-center:hover, .nav-right:hover { color: var(--accent); }
-.nav-center { position: absolute; left: 50%; transform: translateX(-50%); }
+  .nebula1, .nebula2 {
+    background: radial-gradient(circle at 40% 40%, rgba(128,0,255,0.2), transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(0,255,255,0.15), transparent 50%),
+                radial-gradient(circle at 20% 70%, rgba(255,128,128,0.15), transparent 50%);
+    filter: blur(80px);
+    animation: driftNebula 120s linear infinite;
+  }
 
-.content { flex: 1; padding: 25px; text-align: center; overflow: hidden; }
-.content h1 { font-size: 2rem; margin-bottom: 10px; }
+  @keyframes driftNebula {
+    from { transform: translate(0,0); }
+    to { transform: translate(-200px,-100px); }
+  }
 
-/* --- Games Grid --- */
-#gamesTab { display: none; height: calc(100vh - 80px); overflow-y: auto; padding-bottom: 20px; }
-.games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 20px; }
-.game-card {
-  background: var(--card-bg);
-  padding: 12px;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.2s;
-  font-size: 0.95rem;
-  height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-.game-card:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent); }
+  .galaxy1, .galaxy2 {
+    background: radial-gradient(circle, rgba(255,255,255,0.03), transparent 60%);
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    filter: blur(100px);
+    animation: rotateGalaxy 300s linear infinite;
+  }
+  .galaxy1 { top: 15%; left: 25%; }
+  .galaxy2 { top: 60%; left: 70%; }
 
-.game-container { display: none; flex-direction: column; height: 100%; }
-.game-controls { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px; }
-.game-iframe { width: 100%; flex: 1; border: none; border-radius: 12px; }
+  @keyframes rotateGalaxy {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
-/* --- RGB Header --- */
-.rgb-text { font-weight: 700; font-size: 1.3rem; animation: rainbow 5s linear infinite; }
-@keyframes rainbow {
-  0% { color: red; } 14% { color: orange; } 28% { color: yellow; } 42% { color: green; }
-  57% { color: cyan; } 71% { color: blue; } 85% { color: violet; } 100% { color: red; }
-}
+  /* --- LOCK SCREEN --- */
+  .card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 25px;
+    text-align: center;
+    max-width: 380px;
+    width: 90%;
+    box-shadow: 0 0 25px rgba(128, 208, 255, 0.4);
+    backdrop-filter: blur(12px);
+    transition: all 0.4s ease;
+    z-index: 2;
+    position: relative;
+  }
+
+  h1 { margin-bottom: 10px; }
+  input {
+    padding: 12px;
+    border-radius: 20px;
+    border: 2px solid var(--accent);
+    outline: none;
+    width: 80%;
+    margin-bottom: 10px;
+    font-size: 15px;
+    text-align: center;
+    background: transparent;
+    color: var(--text);
+  }
+  button {
+    background: var(--accent);
+    color: #0d0130;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: transform 0.15s, background 0.2s;
+  }
+  button:hover { transform: scale(1.05); background: #a3e3ff; }
+  .msg { margin-top: 10px; color: #ff7575; font-size: 14px; }
+
+  /* --- MAIN SITE --- */
+  .main-site { display: none; flex-direction: column; width: 100%; height: 100%; animation: fadeIn 0.8s ease forwards; z-index:2; position: relative;}
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
+
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 25px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(8px);
+    position: relative;
+  }
+
+  .nav-left, .nav-center, .nav-right {
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .nav-left:hover, .nav-center:hover, .nav-right:hover { color: var(--accent); }
+  .nav-center { position: absolute; left: 50%; transform: translateX(-50%); }
+
+  .content { flex: 1; padding: 25px; text-align: center; overflow: hidden; }
+  .content h1 { font-size: 2rem; margin-bottom: 10px; }
+
 </style>
 </head>
 <body>
 
-<!-- Stars, Nebulas, Galaxies -->
+<!-- Stars, Nebula, Galaxies -->
 <div class="starfield" id="starfield"></div>
 <div class="nebula1"></div>
 <div class="nebula2"></div>
@@ -177,20 +172,186 @@ button:hover { transform: scale(1.05); background: #a3e3ff; }
   <div class="navbar">
     <div class="nav-left" id="homeBtn">🏠 Home</div>
     <div class="nav-center" id="gamesBtn">🎮 Games</div>
-    <div class="nav-right" id="changelogBtn">📜 Changelog</div>
+    <div class="nav-right" id="supportBtn">💫 Support</div>
   </div>
 
   <div class="content" id="homeTab">
     <h1>🌌 Welcome to HTMS Gaming</h1>
     <p>Explore your personal galaxy of fun and creativity.</p>
     <p>Credits To Chris (christopherafton on discord)</p>
+    <p>Share this with anyone you like if it gets blocked keep this doc <a href="https://docs.google.com/document/d/1wjahMAS7aAFssxYmufbKPnEupXdvndHY6DOHy0BNIUk/edit?usp=sharing" target="_blank">Here</a></p>
   </div>
-
   <div class="content" id="gamesTab">
     <h1 class="rgb-text">Please do your work before playing =)</h1>
     <div class="games-grid" id="gamesGrid"></div>
+
+    <!-- Minecraft Options -->
+    <div class="game-container" id="minecraftContainer" style="display:none; flex-direction:column;">
+      <div class="game-controls">
+        <button id="mcBackBtn">⬅ Back</button>
+      </div>
+      <div class="games-grid" id="minecraftOptions"></div>
+    </div>
+
+    <!-- Game Iframe -->
     <div class="game-container" id="gameContainer">
       <div class="game-controls">
         <button id="backBtn">⬅ Back</button>
         <button id="fullscreenBtn">⛶ Fullscreen</button>
-     
+      </div>
+      <iframe id="gameIframe" class="game-iframe"></iframe>
+    </div>
+  </div>
+
+  <div class="content" id="changelogTab" style="display:none;">
+    <h1>📝 Changelog</h1>
+    <div style="text-align:left; max-width:700px; margin:0 auto;">
+      <ul>
+        <li>Added animated starfield, multiple nebulae, and galaxies.</li>
+        <li>Improved Games tab UI with Minecraft options and FNaF display names shortened.</li>
+        <li>Added Retro Bowl games.</li>
+        <li>Added RGB header above games grid.</li>
+        <li>Responsive design improvements across all tabs.</li>
+        <li>Added Changelog tab.</li>
+        <li>Updated home tab with shareable Google Doc link.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content" id="supportTab" style="display:none;">
+    <h1>💫 Support</h1>
+    <p>Suggestions and Bugs</p>
+    <p>THIS IS ONLY FOR SUGGESTIONS OR BUGS</p>
+    <a href="https://docs.google.com/forms/d/1PcSHuVaHrJn7vhyGADq3xJmxooL-KKKU2vyE_gwmOBs/" target="_blank">Submit Here</a>
+  </div>
+</div>
+<script>
+  // --- PASSWORD ---
+  const lockCard = document.getElementById("lockCard");
+  const mainSite = document.getElementById("mainSite");
+  const msg = document.getElementById("msg");
+
+  document.getElementById("unlockBtn").onclick = () => {
+    const input = document.getElementById("pw").value.trim();
+    if (input === "sixgraderise") {
+      lockCard.style.display = "none";
+      mainSite.style.display = "flex";
+    } else {
+      msg.textContent = "❌ Wrong password!";
+    }
+  };
+
+  // --- TABS ---
+  const homeBtn = document.getElementById("homeBtn");
+  const gamesBtn = document.getElementById("gamesBtn");
+  const supportBtn = document.getElementById("supportBtn");
+  const homeTab = document.getElementById("homeTab");
+  const gamesTab = document.getElementById("gamesTab");
+  const changelogTab = document.getElementById("changelogTab");
+  const supportTab = document.getElementById("supportTab");
+
+  function showTab(tab) {
+    [homeTab, gamesTab, changelogTab, supportTab].forEach(t => t.style.display = "none");
+    tab.style.display = "block";
+    document.getElementById("gamesGrid").style.display="grid";
+    document.getElementById("gameContainer").style.display="none";
+    document.getElementById("minecraftContainer").style.display="none";
+  }
+
+  homeBtn.onclick = () => showTab(homeTab);
+  gamesBtn.onclick = () => showTab(gamesTab);
+  supportBtn.onclick = () => showTab(supportTab);
+
+  // --- GAME CARDS ---
+  const gamesGrid = document.getElementById("gamesGrid");
+  const gameContainer = document.getElementById("gameContainer");
+  const minecraftContainer = document.getElementById("minecraftContainer");
+  const minecraftOptions = document.getElementById("minecraftOptions");
+  const gameIframe = document.getElementById("gameIframe");
+  const backBtn = document.getElementById("backBtn");
+  const fullscreenBtn = document.getElementById("fullscreenBtn");
+  const mcBackBtn = document.getElementById("mcBackBtn");
+
+  const games = [
+    "1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html",
+    "Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html","Ball Blast.html",
+    "Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
+    "Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
+    "Chat Bot.html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html",
+    "Drift Boss.html","Drift Hunters.html",
+    "FNaF 2.html","FNaF 3.html","FNaF 4.html","FNaF.html","FNaF Sister Location.html",
+    "Ultimate Custom Night.html","FNaF World.html","Five Nights at Winston's.html",
+    "Flappy Bird.html","Fruit Ninja.html","Half Life.html","Hollow Knight.html",
+    "Jelly Drift.html","Karlson.html","Money Rush.html","Paper.io 2.html","Pixel Gun Survival.html",
+    "Pizza Tower.html","Plinko.html","Pokemon Emerald.html","Pokemon Red.html",
+    "PortaBoy+.html","R.E.P.O.html","Raft.html","Sandboxels.html","Slope 2.html","Slope.html",
+    "Solar Smash.html","Stickman Hook.html","Subway Surfers San Francisco.html","Temple Run 2.html",
+    "That's Not My Neighbor.html","They Are Coming.html","Time Shooter 3 SWAT.html","Tiny Fishing.html",
+    "Tomb Of The Mask.html","Turbo Stars.html","World Box.html","minesweeper.html",
+    "Getting Over It with Bennett Foddy.html","Retro Bowl College.html","Retro Bowl.html"
+  ];
+
+  const fnafDisplay = {
+    "FNaF 2.html":"FNaF 2",
+    "FNaF 3.html":"FNaF 3",
+    "FNaF 4.html":"FNaF 4",
+    "FNaF.html":"FNaF 1",
+    "FNaF Sister Location.html":"Sister Location",
+    "Ultimate Custom Night.html":"Ultimate Custom Night",
+    "FNaF World.html":"FNaF World"
+  };
+
+  games.forEach(file => {
+    let displayName = fnafDisplay[file] || file.replace(".html","").replace(/_/g," ");
+    if(displayName.length>20){ displayName = displayName.slice(0,17)+"..."; }
+    const card = document.createElement("div");
+    card.className = "game-card";
+    card.textContent = displayName;
+    card.onclick = () => {
+      if(displayName=="Minecraft"){
+        gamesGrid.style.display="none";
+        minecraftContainer.style.display="flex";
+        return;
+      }
+      gamesGrid.style.display = "none";
+      gameContainer.style.display = "flex";
+      gameIframe.src = file;
+    };
+    gamesGrid.appendChild(card);
+  });
+
+  // Minecraft Options
+  const mcOptions = ["Eaglercraft 1.12.2.html","Eaglercraft 1.8.html","Astraclient 1.8.html"];
+  mcOptions.forEach(file=>{
+    const card = document.createElement("div");
+    card.className="game-card";
+    card.textContent=file.replace(".html","");
+    card.onclick=()=>{ gameIframe.src=file; minecraftContainer.style.display="none"; gameContainer.style.display="flex";}
+    minecraftOptions.appendChild(card);
+  });
+
+  backBtn.onclick = () => { gameContainer.style.display = "none"; gamesGrid.style.display = "grid"; gameIframe.src = ""; };
+  mcBackBtn.onclick = () => { minecraftContainer.style.display="none"; gamesGrid.style.display="grid"; };
+
+  fullscreenBtn.onclick = () => {
+    if(gameIframe.requestFullscreen){ gameIframe.requestFullscreen(); }
+    else if(gameIframe.webkitRequestFullscreen){ gameIframe.webkitRequestFullscreen(); }
+    else if(gameIframe.msRequestFullscreen){ gameIframe.msRequestFullscreen(); }
+  };
+
+  // --- STARFIELD GENERATION ---
+  const starfield = document.getElementById("starfield");
+  for(let i=0;i<300;i++){
+    const star = document.createElement("div");
+    star.className="star";
+    const size = Math.random()*2 +1+"px";
+    star.style.width = size;
+    star.style.height = size;
+    star.style.top = Math.random()*100+"%";
+    star.style.left = Math.random()*100+"%";
+    star.style.opacity = Math.random();
+    starfield.appendChild(star);
+  }
+</script>
+</body>
+</html>
