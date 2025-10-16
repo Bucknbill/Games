@@ -5,159 +5,203 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HTMS Gaming</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
 
-/* --- COLORS & VARIABLES --- */
-:root {
-  --accent: #80d0ff;
-  --text: #f3f9ff;
-  --nav-bg: rgba(0,0,0,0.4);
-  --card-bg: rgba(255,255,255,0.12);
-}
+  :root {
+    --accent: #80d0ff;
+    --text: #f3f9ff;
+    --nav-bg: rgba(0, 0, 0, 0.4);
+    --card-bg: rgba(255, 255, 255, 0.12);
+  }
 
-/* --- BODY & BACKGROUND --- */
-body {
-  margin:0; padding:0;
-  font-family:'Orbitron', sans-serif;
-  color: var(--text);
-  height: 100vh;
-  display: flex; justify-content: center; align-items: center;
-  overflow: hidden;
-  background: radial-gradient(circle at bottom, #0d0130, #000010 90%);
-  position: relative;
-}
+  body {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: radial-gradient(circle at bottom, #0d0130, #000010 90%);
+    position: relative;
+  }
 
-/* Background layers */
-.bg-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.starfield, .nebula1, .nebula2, .galaxy1, .galaxy2, .lighting{position:absolute;inset:0;pointer-events:none;}
-.starfield{z-index:1;}
-.nebula1,.nebula2{mix-blend-mode:screen;filter:blur(80px)}
-.nebula1{background:
-  radial-gradient(circle at 28% 40%, rgba(160,80,255,0.22), transparent 30%),
-  radial-gradient(circle at 62% 68%, rgba(0,200,255,0.12), transparent 30%);
-  animation:nebDrift1 220s linear infinite;opacity:0.95;}
-.nebula2{background:
-  radial-gradient(circle at 18% 64%, rgba(255,160,200,0.12), transparent 30%),
-  radial-gradient(circle at 78% 30%, rgba(120,180,255,0.10), transparent 28%);
-  animation:nebDrift2 300s linear infinite;opacity:0.85;}
+  /* --- GALAXY BACKGROUND --- */
+  .starfield, .nebula, .galaxy {
+    position: absolute;
+    top:0; left:0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
 
-@keyframes nebDrift1{0%{transform:translate(0,0)}50%{transform:translate(-180px,-120px)}100%{transform:translate(0,0)}}
-@keyframes nebDrift2{0%{transform:translate(0,0) rotate(42deg) scale(0.85)}50%{transform:translate(-260px,-140px) rotate(-90deg) scale(0.9)}100%{transform:translate(0,0) rotate(42deg) scale(0.85)}}
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: twinkle 5s infinite alternate;
+  }
 
-.galaxy1,.galaxy2{mix-blend-mode:screen;border-radius:50%;}
-.galaxy1{width:420px;height:420px;top:8%;left:18%;background:
-  radial-gradient(circle at 40% 40%, rgba(255,255,255,0.07), transparent 30%),
-  radial-gradient(ellipse at 35% 50%, rgba(200,180,255,0.06), transparent 30%);
-  filter:blur(80px);opacity:0.32;animation:galRotA 700s linear infinite}
-.galaxy2{width:340px;height:340px;top:55%;left:62%;background:
-  radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05), transparent 30%);
-  filter:blur(100px);opacity:0.25;animation:galRotB 900s linear infinite}
-@keyframes galRotA{from{transform:rotate(0deg)}to{transform:rotate(360deg)}} 
-@keyframes galRotB{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+  @keyframes twinkle {
+    0% { opacity: 0.2; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.3; }
+  }
 
-/* subtle lighting */
-.lighting{mix-blend-mode:screen;
-  background:
-  radial-gradient(circle at 25% 20%, rgba(255,255,255,0.02), transparent 12%),
-  radial-gradient(circle at 75% 75%, rgba(255,200,255,0.01), transparent 16%);
-  animation:lightPulse 200s ease-in-out infinite}
-@keyframes lightPulse{0%{filter:brightness(0.98)}50%{filter:brightness(1.06)}100%{filter:brightness(0.98)}}
+  .nebula {
+    background: radial-gradient(circle at 40% 40%, rgba(128,0,255,0.25), transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(0,255,255,0.2), transparent 50%),
+                radial-gradient(circle at 20% 70%, rgba(255,128,128,0.2), transparent 50%);
+    filter: blur(80px);
+    animation: driftNebula 120s linear infinite;
+  }
 
-/* --- LOCK SCREEN --- */
-.card {
-  background: var(--card-bg);
-  padding: 30px;
-  border-radius: 25px;
-  text-align: center;
-  max-width: 380px;
-  width: 90%;
-  box-shadow: 0 0 25px rgba(128,208,255,0.4);
-  backdrop-filter: blur(12px);
-  z-index:2; position: relative;
-}
-h1 {margin-bottom:10px;}
-input {
-  padding:12px;
-  border-radius:20px;
-  border:2px solid var(--accent);
-  outline:none;
-  width:80%;
-  margin-bottom:10px;
-  font-size:15px;
-  text-align:center;
-  background:transparent;
-  color: var(--text);
-}
-button {
-  background: var(--accent);
-  color:#0d0130;
-  border:none;
-  border-radius:20px;
-  padding:10px 20px;
-  cursor:pointer;
-  font-size:15px;
-  font-weight:600;
-  transition:transform 0.15s, background 0.2s;
-}
-button:hover{transform:scale(1.05);background:#a3e3ff;}
-.msg{margin-top:10px;color:#ff7575;font-size:14px;}
+  @keyframes driftNebula {
+    from { transform: translate(0,0); }
+    to { transform: translate(-200px,-100px); }
+  }
 
-/* --- MAIN SITE --- */
-.main-site{display:none;flex-direction:column;width:100%;height:100%;z-index:10;opacity:0;transform:translateY(12px);transition:opacity 0.8s ease, transform 0.8s ease;}
-.main-site.show{opacity:1;transform:translateY(0);}
-.navbar{display:flex;justify-content:space-between;align-items:center;padding:14px 25px;background:var(--nav-bg);backdrop-filter:blur(8px);position:relative;}
-.nav-left,.nav-center,.nav-right{font-weight:600;color:var(--text);cursor:pointer;transition:color 0.2s;}
-.nav-left:hover,.nav-center:hover,.nav-right:hover{color:var(--accent);}
-.nav-center{position:absolute;left:50%;transform:translateX(-50%);}
-.content{flex:1;padding:25px;text-align:center;overflow:hidden;}
-.content h1{font-size:2rem;margin-bottom:10px;}
+  .galaxy {
+    background: radial-gradient(circle, rgba(255,255,255,0.03), transparent 60%);
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    top: 20%;
+    left: 30%;
+    filter: blur(100px);
+    animation: rotateGalaxy 300s linear infinite;
+  }
 
-/* --- GAMES GRID --- */
-#gamesTab{display:none;height:calc(100vh-80px);overflow-y:auto;padding-bottom:20px;}
-.games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-top:20px;}
-.game-card{
-  background: var(--card-bg);
-  padding:12px;
-  border-radius:15px;
-  cursor:pointer;
-  transition:transform 0.15s, box-shadow 0.2s;
-  font-size:0.95rem;
-  height:70px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-.game-card:hover{transform:scale(1.05);box-shadow:0 0 15px var(--accent);}
-.game-container{display:none;flex-direction:column;height:100%;}
-.game-controls{display:flex;justify-content:flex-end;gap:10px;margin-bottom:10px;}
-.game-iframe{width:100%;flex:1;border:none;border-radius:12px;}
+  @keyframes rotateGalaxy {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
-/* RGB Header */
-.rgb-text{font-weight:700;font-size:1.3rem;animation:rainbow 5s linear infinite;}
-@keyframes rainbow{
-0%{color:red;}14%{color:orange;}28%{color:yellow;}42%{color:green;}
-57%{color:cyan;}71%{color:blue;}85%{color:violet;}100%{color:red;}
-}
+  /* --- LOCK SCREEN --- */
+  .card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 25px;
+    text-align: center;
+    max-width: 380px;
+    width: 90%;
+    box-shadow: 0 0 25px rgba(128, 208, 255, 0.4);
+    backdrop-filter: blur(12px);
+    transition: all 0.4s ease;
+    z-index: 2;
+    position: relative;
+  }
 
-/* --- CHANGELOG TAB */
-#changelogTab{display:none;height:calc(100vh-80px);overflow-y:auto;padding:25px;color:var(--text);}
-.changelog-entry{background:var(--card-bg);padding:15px;margin-bottom:12px;border-radius:12px;box-shadow:0 0 15px rgba(128,208,255,0.3);}
+  h1 { margin-bottom: 10px; }
+  input {
+    padding: 12px;
+    border-radius: 20px;
+    border: 2px solid var(--accent);
+    outline: none;
+    width: 80%;
+    margin-bottom: 10px;
+    font-size: 15px;
+    text-align: center;
+    background: transparent;
+    color: var(--text);
+  }
+  button {
+    background: var(--accent);
+    color: #0d0130;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: transform 0.15s, background 0.2s;
+  }
+  button:hover { transform: scale(1.05); background: #a3e3ff; }
+  .msg { margin-top: 10px; color: #ff7575; font-size: 14px; }
+
+  /* --- MAIN SITE --- */
+  .main-site { display: none; flex-direction: column; width: 100%; height: 100%; animation: fadeIn 0.8s ease forwards; z-index:2; position: relative;}
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
+
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 25px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(8px);
+    position: relative;
+  }
+
+  .nav-left, .nav-center, .nav-right {
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .nav-left:hover, .nav-center:hover, .nav-right:hover { color: var(--accent); }
+  .nav-center { position: absolute; left: 50%; transform: translateX(-50%); }
+
+  .content { flex: 1; padding: 25px; text-align: center; overflow: hidden; }
+  .content h1 { font-size: 2rem; margin-bottom: 10px; }
+
+  /* --- Games Grid --- */
+  #gamesTab { display: none; height: calc(100vh - 80px); overflow-y: auto; padding-bottom: 20px; }
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .game-card {
+    background: var(--card-bg);
+    padding: 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.2s;
+    font-size: 0.95rem;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .game-card:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent); }
+
+  .game-container { display: none; flex-direction: column; height: 100%; }
+  .game-controls { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px; }
+  .game-iframe { width: 100%; flex: 1; border: none; border-radius: 12px; }
+
+  /* --- RGB Header --- */
+  .rgb-text {
+    font-weight: 700;
+    font-size: 1.3rem;
+    animation: rainbow 5s linear infinite;
+  }
+
+  @keyframes rainbow {
+    0% { color: red; }
+    14% { color: orange; }
+    28% { color: yellow; }
+    42% { color: green; }
+    57% { color: cyan; }
+    71% { color: blue; }
+    85% { color: violet; }
+    100% { color: red; }
+  }
+
 </style>
 </head>
 <body>
 
-<!-- Background -->
-<div class="bg-wrap">
-  <div class="starfield" id="starfield"></div>
-  <div class="nebula1"></div>
-  <div class="nebula2"></div>
-  <div class="galaxy1"></div>
-  <div class="galaxy2"></div>
-  <div class="lighting"></div>
-</div>
+<!-- Stars, Nebula, Galaxies -->
+<div class="starfield" id="starfield"></div>
+<div class="nebula"></div>
+<div class="galaxy"></div>
 
-<!-- Lock Screen -->
+<!-- Password Screen -->
 <div class="card" id="lockCard">
   <h1>🚀 HTMS Gaming</h1>
   <p>Enter password to enter the galaxy:</p>
@@ -173,7 +217,6 @@ button:hover{transform:scale(1.05);background:#a3e3ff;}
     <div class="nav-left" id="homeBtn">🏠 Home</div>
     <div class="nav-center" id="gamesBtn">🎮 Games</div>
     <div class="nav-right" id="supportBtn">💫 Support</div>
-    <div class="nav-right" id="changelogBtn" style="margin-left:20px;">📜 Changelog</div>
   </div>
 
   <div class="content" id="homeTab">
@@ -200,127 +243,139 @@ button:hover{transform:scale(1.05);background:#a3e3ff;}
     <p>THIS IS ONLY FOR SUGGESTIONS OR BUGS</p>
     <a href="https://docs.google.com/forms/d/1PcSHuVaHrJn7vhyGADq3xJmxooL-KKKU2vyE_gwmOBs/" target="_blank">Submit Here</a>
   </div>
-
-  <div class="content" id="changelogTab">
-    <h1>📜 Changelog</h1>
-    <div class="changelog-entry">- Added Minecraft game card with options</div>
-    <div class="changelog-entry">- Shortened FNAF game names</div>
-    <div class="changelog-entry">- Added fade-in UI</div>
-    <div class="changelog-entry">- Enhanced stars, nebulae, and galaxies background</div>
-    <div class="changelog-entry">- Added RGB header message for Games tab</div>
-  </div>
 </div>
 
 <script>
-const lockCard=document.getElementById("lockCard");
-const mainSite=document.getElementById("mainSite");
-const msg=document.getElementById("msg");
+  // --- PASSWORD ---
+  const lockCard = document.getElementById("lockCard");
+  const mainSite = document.getElementById("mainSite");
+  const msg = document.getElementById("msg");
 
-document.getElementById("unlockBtn").onclick=()=>{
-  const input=document.getElementById("pw").value.trim();
-  if(input==="sixgraderise"){
-    lockCard.style.display="none";
-    mainSite.style.display="flex";
-    setTimeout(()=> mainSite.classList.add('show'),50);
-    showTab(homeTab);
-  }else{msg.textContent="❌ Wrong password!";}
-}
-
-// Tabs
-const homeBtn=document.getElementById("homeBtn");
-const gamesBtn=document.getElementById("gamesBtn");
-const supportBtn=document.getElementById("supportBtn");
-const changelogBtn=document.getElementById("changelogBtn");
-const homeTab=document.getElementById("homeTab");
-const gamesTab=document.getElementById("gamesTab");
-const supportTab=document.getElementById("supportTab");
-const changelogTab=document.getElementById("changelogTab");
-
-function showTab(tab){[homeTab,gamesTab,supportTab,changelogTab].forEach(t=>t.style.display="none");tab.style.display="block";}
-homeBtn.onclick=()=>showTab(homeTab);
-gamesBtn.onclick=()=>showTab(gamesTab);
-supportBtn.onclick=()=>showTab(supportTab);
-changelogBtn.onclick=()=>showTab(changelogTab);
-
-// Games
-const gamesGrid=document.getElementById("gamesGrid");
-const gameContainer=document.getElementById("gameContainer");
-const gameIframe=document.getElementById("gameIframe");
-const backBtn=document.getElementById("backBtn");
-const fullscreenBtn=document.getElementById("fullscreenBtn");
-
-const games=[
-"1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html",
-"Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html","Ball Blast.html",
-"Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
-"Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
-"Chat Bot.html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html",
-"Drift Boss.html","Drift Hunters.html","Five Nights at Freddy's 2.html","Five Nights at Freddy's 3.html",
-"Five Nights at Freddy's 4.html","Five Nights at Freddy's.html","Five Nights at Freddy's_ Sister Location.html",
-"Five Nights at Freddy's_ Ultimate Custom Night.html","Five Nights at Freddy's_ World.html","Five Nights at Winston's.html",
-"Flappy Bird.html","Fruit Ninja.html","Half Life.html","Hollow Knight.html",
-"Jelly Drift.html","Karlson.html","Money Rush.html","Paper.io 2.html","Pixel Gun Survival.html","Pizza Tower.html",
-"Plinko.html","Pokemon Emerald.html","Pokemon Red.html","PortaBoy+.html","R.E.P.O.html","Raft.html",
-"Sandboxels.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html",
-"Subway Surfers_ San Francisco.html","Temple Run 2.html","That's Not My Neighbor.html","They Are Coming.html",
-"Time Shooter 3_ SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html","Turbo Stars.html","World Box.html",
-"minesweeper.html","Getting Over It with Bennett Foddy.html","Retro Bowl College.html","Retro Bowl.html","Minecraft.html"
-];
-
-games.forEach(file=>{
-  let displayName=file.replace(".html","").replace(/_/g," ");
-  // Shorten FNAF
-  displayName=displayName.replace("Five Nights at Freddy's 2","FNAF 2")
-                         .replace("Five Nights at Freddy's 3","FNAF 3")
-                         .replace("Five Nights at Freddy's 4","FNAF 4")
-                         .replace("Five Nights at Freddy's_ Ultimate Custom Night","Ultimate Custom Night")
-                         .replace("Five Nights at Freddy's_ Sister Location","Sister Location")
-                         .replace("Five Nights at Freddy's_ World","FNAF World")
-                         .replace("Five Nights at Winston's","FNAF Winston");
-  const card=document.createElement("div");
-  card.className="game-card";
-  card.textContent=displayName;
-  card.onclick=()=>{
-    if(file==="Minecraft.html"){
-      alert("Minecraft Options:\n- Eaglercraft 1.12.2\n- Eaglercraft 1.8\n- Astraclient 1.8");
-      return;
+  document.getElementById("unlockBtn").onclick = () => {
+    const input = document.getElementById("pw").value.trim();
+    if (input === "sixgraderise") {
+      lockCard.style.display = "none";
+      mainSite.style.display = "flex";
+    } else {
+      msg.textContent = "❌ Wrong password!";
     }
-    gamesGrid.style.display="none";
-    gameContainer.style.display="flex";
-    gameIframe.src=file;
+  };
+
+  // --- TABS ---
+  const homeBtn = document.getElementById("homeBtn");
+  const gamesBtn = document.getElementById("gamesBtn");
+  const supportBtn = document.getElementById("supportBtn");
+  const homeTab = document.getElementById("homeTab");
+  const gamesTab = document.getElementById("gamesTab");
+  const supportTab = document.getElementById("supportTab");
+
+  function showTab(tab) {
+    [homeTab, gamesTab, supportTab].forEach(t => t.style.display = "none");
+    tab.style.display = "block";
   }
-  gamesGrid.appendChild(card);
-});
+  homeBtn.onclick = () => showTab(homeTab);
+  gamesBtn.onclick = () => showTab(gamesTab);
+  supportBtn.onclick = () => showTab(supportTab);
 
-backBtn.onclick=()=>{
-  gameContainer.style.display="none";
-  gamesGrid.style.display="grid";
-  gameIframe.src="";
-}
+  // --- GAME CARDS ---
+  const gamesGrid = document.getElementById("gamesGrid");
+  const gameContainer = document.getElementById("gameContainer");
+  const gameIframe = document.getElementById("gameIframe");
+  const backBtn = document.getElementById("backBtn");
+  const fullscreenBtn = document.getElementById("fullscreenBtn");
 
-fullscreenBtn.onclick=()=>{
-  if(gameIframe.requestFullscreen){gameIframe.requestFullscreen();}
-  else if(gameIframe.webkitRequestFullscreen){gameIframe.webkitRequestFullscreen();}
-  else if(gameIframe.msRequestFullscreen){gameIframe.msRequestFullscreen();}
-}
+  const games = [
+    "1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html",
+    "Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html","Ball Blast.html",
+    "Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
+    "Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
+    "Chat Bot.html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html",
+    "Drift Boss.html","Drift Hunters.html","FNAF 2.html","FNAF 3.html",
+    "FNAF 4.html","FNAF.html","FNAF Sister Location.html",
+    "Ultimate Custom Night.html","FNAF World.html",
+    "Five Nights at Winston's.html","Flappy Bird.html","Fruit Ninja.html","Half Life.html","Hollow Knight.html",
+    "Jelly Drift.html","Karlson.html","Money Rush.html","Paper.io 2.html","Pixel Gun Survival.html","Pizza Tower.html",
+    "Plinko.html","Pokemon Emerald.html","Pokemon Red.html","PortaBoy+.html","R.E.P.O.html","Raft.html",
+    "Sandboxels.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html",
+    "Subway Surfers San Francisco.html","Temple Run 2.html","That's Not My Neighbor.html","They Are Coming.html",
+    "Time Shooter 3 SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html","Turbo Stars.html","World Box.html",
+    "minesweeper.html","Getting Over It with Bennett Foddy.html","Retro Bowl College.html","Retro Bowl.html",
+    "Minecraft.html"
+  ];
 
-// Starfield
-const starfield=document.getElementById("starfield");
-for(let i=0;i<250;i++){
-  const star=document.createElement("div");
-  star.className="star";
-  const size=Math.random()*2+1+"px";
-  star.style.width=size;
-  star.style.height=size;
-  star.style.top=Math.random()*100+"%";
-  star.style.left=Math.random()*100+"%";
-  star.style.opacity=Math.random();
-  star.style.background="white";
-  star.style.borderRadius="50%";
-  star.style.position="absolute";
-  star.style.animation="twinkle "+(Math.random()*5+3)+"s infinite alternate";
-  starfield.appendChild(star);
-}
+  games.forEach(file => {
+    let displayName = file.replace(".html","").replace(/_/g," ");
+    if(displayName.includes("FNAF")){
+        displayName = displayName.replace("Five Nights at ","").replace("Ultimate Custom Night","Ultimate Custom Night");
+    }
+    if(displayName.length>20){ displayName = displayName.slice(0,17)+"..."; }
+
+    const card = document.createElement("div");
+    card.className = "game-card";
+    card.textContent = displayName;
+
+    card.onclick = () => {
+        if(file === "Minecraft.html"){
+            // Show in-progress message
+            gamesGrid.style.display = "none";
+            gameContainer.style.display = "flex";
+            gameIframe.src = "";
+            gameIframe.style.display = "none";
+
+            let msg = document.createElement("div");
+            msg.style.flex = "1";
+            msg.style.display = "flex";
+            msg.style.alignItems = "center";
+            msg.style.justifyContent = "center";
+            msg.style.fontSize = "1.5rem";
+            msg.style.color = "#80d0ff";
+            msg.textContent = "Minecraft – In Progress 🚧";
+            gameContainer.appendChild(msg);
+
+            backBtn.onclick = () => {
+                gameContainer.style.display = "none";
+                gamesGrid.style.display = "grid";
+                gameIframe.src = "";
+                gameIframe.style.display = "block";
+                msg.remove();
+            };
+            return;
+        }
+
+        gamesGrid.style.display = "none";
+        gameContainer.style.display = "flex";
+        gameIframe.style.display = "block";
+        gameIframe.src = file;
+    };
+
+    gamesGrid.appendChild(card);
+  });
+
+  backBtn.onclick = () => {
+    gameContainer.style.display = "none";
+    gamesGrid.style.display = "grid";
+    gameIframe.src = "";
+  };
+
+  fullscreenBtn.onclick = () => {
+    if(gameIframe.requestFullscreen){ gameIframe.requestFullscreen(); }
+    else if(gameIframe.webkitRequestFullscreen){ gameIframe.webkitRequestFullscreen(); }
+    else if(gameIframe.msRequestFullscreen){ gameIframe.msRequestFullscreen(); }
+  };
+
+  // --- STARFIELD GENERATION ---
+  const starfield = document.getElementById("starfield");
+  for(let i=0;i<250;i++){
+    const star = document.createElement("div");
+    star.className="star";
+    const size = Math.random()*2 +1+"px";
+    star.style.width = size;
+    star.style.height = size;
+    star.style.top = Math.random()*100+"%";
+    star.style.left = Math.random()*100+"%";
+    star.style.opacity = Math.random();
+    starfield.appendChild(star);
+  }
 </script>
 </body>
 </html>
