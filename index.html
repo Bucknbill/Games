@@ -540,18 +540,22 @@
     showTab(gamesTab);
   });
 
-let escapeHeld = false;
+let escapeTimer;
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && !escapeHeld && mcBackdrop.style.display === "flex") {
-    escapeHeld = true; // mark that Escape is being held
-    closeMinecraftModal();
+  if (e.key === "Escape" && mcBackdrop.style.display === "flex" && !escapeTimer) {
+    // Start a timer when Escape is first pressed
+    escapeTimer = setTimeout(() => {
+      closeMinecraftModal(); // closes after holding
+      escapeTimer = null; // reset
+    }, 500); // adjust 500ms to how long you want the hold
   }
 });
 
 document.addEventListener("keyup", (e) => {
   if (e.key === "Escape") {
-    escapeHeld = false; // reset when Escape is released
+    clearTimeout(escapeTimer); // cancel if released too early
+    escapeTimer = null;
   }
 });
 
