@@ -540,29 +540,21 @@
     showTab(gamesTab);
   });
 
-  mcBackdrop.addEventListener("click", (e)=>{
-    if(e.target === mcBackdrop) closeMinecraftModal();
-  });
-
-let escapeTimer;
-const holdDuration = 500; // Time in milliseconds (e.g., 500ms)
+let escapeHeld = false;
 
 document.addEventListener("keydown", (e) => {
-  // Check if the key is Escape and the modal is open
-  if (e.key === "Escape" && mcBackdrop.style.display === "flex") {
-    // Prevent the default browser behavior of exiting fullscreen immediately
-    e.preventDefault(); 
-    
-    // Clear any existing timer to prevent multiple timers from running
-    clearTimeout(escapeTimer); 
-
-    // Start a new timer
-    escapeTimer = setTimeout(() => {
-      // If the timer completes (meaning the key was held), close the modal
-      closeMinecraftModal();
-    }, holdDuration);
+  if (e.key === "Escape" && !escapeHeld && mcBackdrop.style.display === "flex") {
+    escapeHeld = true; // mark that Escape is being held
+    closeMinecraftModal();
   }
 });
+
+document.addEventListener("keyup", (e) => {
+  if (e.key === "Escape") {
+    escapeHeld = false; // reset when Escape is released
+  }
+});
+
 
 document.addEventListener("keyup", (e) => {
   // If the key is Escape and the modal is open
