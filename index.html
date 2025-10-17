@@ -544,9 +544,33 @@
     if(e.target === mcBackdrop) closeMinecraftModal();
   });
 
-  document.addEventListener("keydown", (e)=>{
-    if(e.key === "Escape" && mcBackdrop.style.display === "flex") closeMinecraftModal();
-  });
+let escapeTimer;
+const holdDuration = 500; // Time in milliseconds (e.g., 500ms)
+
+document.addEventListener("keydown", (e) => {
+  // Check if the key is Escape and the modal is open
+  if (e.key === "Escape" && mcBackdrop.style.display === "flex") {
+    // Prevent the default browser behavior of exiting fullscreen immediately
+    e.preventDefault(); 
+    
+    // Clear any existing timer to prevent multiple timers from running
+    clearTimeout(escapeTimer); 
+
+    // Start a new timer
+    escapeTimer = setTimeout(() => {
+      // If the timer completes (meaning the key was held), close the modal
+      closeMinecraftModal();
+    }, holdDuration);
+  }
+});
+
+document.addEventListener("keyup", (e) => {
+  // If the key is Escape and the modal is open
+  if (e.key === "Escape" && mcBackdrop.style.display === "flex") {
+    // Clear the timer. The modal will not close if the key is released before the timer finishes
+    clearTimeout(escapeTimer);
+  }
+});
 
   showTab(homeTab);
 
