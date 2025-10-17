@@ -3,9 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>New Tab</title>
-
-<!-- favicon (expects favicon.png in repo) -->
+<title>HTMS Gaming</title>
 <link rel="icon" type="image/png" href="favicon.png">
 
 <style>
@@ -27,19 +25,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow: auto;
     background: radial-gradient(circle at bottom, #0d0130, #000010 90%);
     position: relative;
   }
 
-  /* --- GALAXY BACKGROUND --- */
   .starfield, .nebula, .galaxy {
     position: absolute;
     top:0; left:0;
     width: 100%; height: 100%;
     pointer-events: none;
   }
-
   .star {
     position: absolute;
     background: white;
@@ -47,13 +43,11 @@
     opacity: 0.7;
     animation: twinkle 5s infinite alternate;
   }
-
   @keyframes twinkle {
     0% { opacity: 0.2; }
     50% { opacity: 0.8; }
     100% { opacity: 0.3; }
   }
-
   .nebula {
     background: radial-gradient(circle at 40% 40%, rgba(128,0,255,0.2), transparent 50%),
                 radial-gradient(circle at 70% 70%, rgba(0,255,255,0.15), transparent 50%),
@@ -61,12 +55,10 @@
     filter: blur(80px);
     animation: driftNebula 120s linear infinite;
   }
-
   @keyframes driftNebula {
     from { transform: translate(0,0); }
     to { transform: translate(-200px,-100px); }
   }
-
   .galaxy {
     background: radial-gradient(circle, rgba(255,255,255,0.03), transparent 60%);
     border-radius: 50%;
@@ -77,13 +69,11 @@
     filter: blur(100px);
     animation: rotateGalaxy 300s linear infinite;
   }
-
   @keyframes rotateGalaxy {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
 
-  /* --- LOCK SCREEN --- */
   .card {
     background: var(--card-bg);
     padding: 30px;
@@ -123,11 +113,26 @@
     transition: transform 0.15s, background 0.2s;
   }
   button:hover { transform: scale(1.05); background: #a3e3ff; }
+
   .msg { margin-top: 10px; color: #ff7575; font-size: 14px; }
 
-  /* --- MAIN SITE --- */
-  .main-site { display: none; flex-direction: column; width: 100%; height: 100%; z-index:2; position: relative;}
-  .content { flex: 1; padding: 25px; text-align: center; overflow: hidden; display: none; opacity:0; transition: opacity 0.6s ease; }
+  .main-site {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    z-index:2;
+    position: relative;
+  }
+  .content {
+    flex: 1;
+    padding: 25px;
+    text-align: center;
+    overflow: hidden;
+    display: none;
+    opacity:0;
+    transition: opacity 0.6s ease;
+  }
   .content.active { display:block; opacity:1;}
   .content h1 { font-size: 2rem; margin-bottom: 10px; }
 
@@ -147,7 +152,6 @@
     cursor: pointer;
     transition: color 0.2s;
   }
-
   .nav-left:hover, .nav-right:hover { color: var(--accent); }
 
   .nav-center {
@@ -163,10 +167,8 @@
     color: var(--text);
     transition: color 0.2s;
   }
-
   .nav-btn:hover { color: var(--accent); }
 
-  /* --- Games Grid --- */
   .games-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -189,11 +191,17 @@
   }
   .game-card:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent); }
 
-  .game-container { display: none; flex-direction: column; height: 100%; }
+  .game-container { display: none; flex-direction: column; height: 100%; overflow: auto; }
   .game-controls { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px; }
-  .game-iframe { width: 100%; flex: 1; border: none; border-radius: 12px; }
+  .game-iframe {
+    width: 100%;
+    flex: 1;
+    border: none;
+    border-radius: 12px;
+    height: 100%;
+    overflow: auto;
+  }
 
-  /* --- RGB Header --- */
   .rgb-text {
     font-weight: 700;
     font-size: 1.3rem;
@@ -204,7 +212,6 @@
     57% { color: cyan; } 71% { color: blue; } 85% { color: violet; } 100% { color: red; }
   }
 
-  /* RGB for Home urgent notice (slightly bigger) */
   .home-rgb {
     display:block;
     font-weight:900;
@@ -213,7 +220,6 @@
     animation: rainbow 4.5s linear infinite;
   }
 
-  /* --- Minecraft Modal --- */
   .mc-modal-backdrop {
     position: fixed;
     inset: 0;
@@ -235,11 +241,7 @@
     border: 1px solid rgba(128,208,255,0.06);
     text-align: center;
   }
-  .mc-title {
-    font-size: 1.1rem;
-    margin-bottom: 12px;
-    font-weight:700;
-  }
+  .mc-title { font-size: 1.1rem; margin-bottom: 12px; font-weight:700; }
   .mc-options { display:flex; flex-direction:column; gap:10px; margin-top:10px; }
   .mc-btn {
     padding: 10px 12px;
@@ -252,25 +254,20 @@
   .mc-btn:hover { transform: translateY(-3px); }
   .mc-btn.e1 { background: linear-gradient(90deg,#76d07f,#3bbf4a); color:#05130a; }
   .mc-btn.e2 { background: linear-gradient(90deg,#8dc4ff,#3f8cff); color:#031028; }
-  .mc-btn.astra { background: linear-gradient(90deg,#cda2ff,#8b5cff); color:#081025; }
   .mc-btn.back { background: transparent; border: 1px solid rgba(243,247,255,0.08); color:var(--text); }
 
-  /* small responsive tweaks */
   @media (max-width:480px) {
     .mc-modal { width: 92%; padding:14px; }
     .game-card{height:64px;}
   }
-
 </style>
 </head>
 <body>
 
-<!-- Stars, Nebula, Galaxies -->
 <div class="starfield" id="starfield"></div>
 <div class="nebula"></div>
 <div class="galaxy"></div>
 
-<!-- Password Screen -->
 <div class="card" id="lockCard">
   <h1>🚀 HTMS Gaming</h1>
   <p>Enter password to enter the galaxy:</p>
@@ -280,7 +277,6 @@
   <div class="msg" id="msg"></div>
 </div>
 
-<!-- Main Site -->
 <div class="main-site" id="mainSite">
   <div class="navbar">
     <div class="nav-left" id="homeBtn">🏠 Home</div>
@@ -292,7 +288,6 @@
     <div class="nav-right" id="supportBtn">💫 Support</div>
   </div>
 
-  <!-- HOME -->
   <div class="content active" id="homeTab">
     <h1>🌌 Welcome to HTMS Gaming</h1>
     <p>Explore your personal galaxy of fun and creativity.</p>
@@ -301,13 +296,11 @@
     <p>Credits To Chris (christopherafton on discord)</p>
   </div>
 
-  <!-- ANNOUNCEMENT -->
   <div class="content" id="announcementTab" style="display:none;">
     <h1>📢 Announcement</h1>
     <p>Incase this link gets blocked keep this document incase: <a href="https://docs.google.com/document/d/1zGOlqKTPV8rY7JxXy9eJmT5V9oF0EJlhq3pKX7u8" target="_blank">Here</a></p>
   </div>
 
-  <!-- GAMES -->
   <div class="content" id="gamesTab" style="display:none;">
     <h1 class="rgb-text">Please do your work before playing =)</h1>
     <div class="games-grid" id="gamesGrid"></div>
@@ -321,20 +314,15 @@
     </div>
   </div>
 
-  <!-- CHANGELOG -->
   <div class="content" id="changelogTab" style="display:none;">
     <h1>📝 Changelog</h1>
     <ul style="text-align:left; max-width:600px; margin: 0 auto; line-height:1.5;">
-      <li>Added Announcement and Changelog tabs.</li>
-      <li>Shortened FNAF game display names.</li>
-      <li>Added Minecraft version selector (Eaglercraft 1.8, 1.12.2, AstraClient).</li>
-      <li>Changed tab name and icon to match Chrome new tab style.</li>
-      <li>UI fade-in animations restored.</li>
-      <li>Improved navbar spacing and responsiveness.</li>
+      <li>Removed AstraClient option from Minecraft.</li>
+      <li>Enabled scrolling for game view.</li>
+      <li>Improved layout for better usability.</li>
     </ul>
   </div>
 
-  <!-- SUPPORT -->
   <div class="content" id="supportTab" style="display:none;">
     <h1>💫 Support</h1>
     <p>Suggestions and Bugs</p>
@@ -343,7 +331,6 @@
   </div>
 </div>
 
-<!-- Minecraft modal -->
 <div class="mc-modal-backdrop" id="mcBackdrop" aria-hidden="true">
   <div class="mc-modal" role="dialog" aria-modal="true" aria-labelledby="mcTitle">
     <div class="mc-title" id="mcTitle">Minecraft — Choose a client</div>
@@ -352,20 +339,18 @@
     <div class="mc-options" style="margin-top:16px;">
       <button class="mc-btn e1" id="eagler18Btn">Eaglercraft 1.8</button>
       <button class="mc-btn e2" id="eagler112Btn">Eaglercraft 1.12.2</button>
-      <button class="mc-btn astra" id="astraBtn">AstraClient</button>
       <button class="mc-btn back" id="mcBackBtn">Back</button>
     </div>
   </div>
 </div>
 
 <script>
-  // --- PASSWORD ---
   const lockCard = document.getElementById("lockCard");
   const mainSite = document.getElementById("mainSite");
   const msg = document.getElementById("msg");
   document.getElementById("unlockBtn").onclick = () => {
     const input = document.getElementById("pw").value.trim();
-    if (input === "gamingontop") {
+    if (input === "sixgraderise") {
       lockCard.style.display = "none";
       mainSite.style.display = "flex";
     } else {
@@ -373,35 +358,26 @@
     }
   };
 
-  // --- TABS ---
-  const homeBtn = document.getElementById("homeBtn");
-  const gamesBtn = document.getElementById("gamesBtn");
-  const supportBtn = document.getElementById("supportBtn");
-  const announcementBtn = document.getElementById("announcementBtn");
-  const changelogBtn = document.getElementById("changelogBtn");
+  const tabButtons = {
+    homeBtn: "homeTab",
+    gamesBtn: "gamesTab",
+    supportBtn: "supportTab",
+    announcementBtn: "announcementTab",
+    changelogBtn: "changelogTab"
+  };
 
-  const homeTab = document.getElementById("homeTab");
-  const gamesTab = document.getElementById("gamesTab");
-  const supportTab = document.getElementById("supportTab");
-  const announcementTab = document.getElementById("announcementTab");
-  const changelogTab = document.getElementById("changelogTab");
-
-  function showTab(tab){
-    [homeTab, gamesTab, supportTab, announcementTab, changelogTab].forEach(t=>{
-      t.classList.remove("active");
-      t.style.display = "none";
-    });
-    tab.style.display = "block";
-    tab.classList.add("active");
+  for (const id in tabButtons) {
+    document.getElementById(id).onclick = () => {
+      document.querySelectorAll(".content").forEach(c => {
+        c.style.display = "none";
+        c.classList.remove("active");
+      });
+      const tab = document.getElementById(tabButtons[id]);
+      tab.style.display = "block";
+      tab.classList.add("active");
+    };
   }
 
-  homeBtn.onclick = () => showTab(homeTab);
-  gamesBtn.onclick = () => showTab(gamesTab);
-  supportBtn.onclick = () => showTab(supportTab);
-  announcementBtn.onclick = () => showTab(announcementTab);
-  changelogBtn.onclick = () => showTab(changelogTab);
-
-  // --- GAME CARDS ---
   const gamesGrid = document.getElementById("gamesGrid");
   const gameContainer = document.getElementById("gameContainer");
   const gameIframe = document.getElementById("gameIframe");
@@ -409,58 +385,19 @@
   const fullscreenBtn = document.getElementById("fullscreenBtn");
 
   const games = [
-    "1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html",
-    "Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html","Ball Blast.html",
-    "Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
-    "Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
-    "Chat Bot.html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html",
-    "Drift Boss.html","Drift Hunters.html","Five Nights at Freddy's 2.html","Five Nights at Freddy's 3.html",
-    "Five Nights at Freddy's 4.html","Five Nights at Freddy's.html","Five Nights at Freddy's_ Sister Location.html",
-    "Five Nights at Freddy's_ Ultimate Custom Night.html","Five Nights at Freddy's_ World.html","Five Nights at Winston's.html",
-    "Flappy Bird.html","Fruit Ninja.html","Half Life.html","Hollow Knight.html",
-    "Jelly Drift.html","Karlson.html","Money Rush.html","Paper.io 2.html","Pixel Gun Survival.html","Pizza Tower.html",
-    "Plinko.html","Pokemon Emerald.html","Pokemon Red.html","PortaBoy+.html","R.E.P.O.html","Raft.html",
-    "Sandboxels.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html",
-    "Subway Surfers_ San Francisco.html","Temple Run 2.html","That's Not My Neighbor.html","They Are Coming.html",
-    "Time Shooter 3_ SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html","Turbo Stars.html","World Box.html",
-    "minesweeper.html","Getting Over It with Bennett Foddy.html","Retro Bowl College.html","Retro Bowl.html","Minecraft.html"
+    "1v1.LoL.html","Ages of Conflict.html","Cuphead.html","Minecraft.html"
   ];
 
-  // shorten FNAF display names
-  const fnafDisplayNames = {
-    "Five Nights at Freddy's 2.html": "FNAF 2",
-    "Five Nights at Freddy's 3.html": "FNAF 3",
-    "Five Nights at Freddy's 4.html": "FNAF 4",
-    "Five Nights at Freddy's.html": "FNAF",
-    "Five Nights at Freddy's_ Sister Location.html": "Sister Location",
-    "Five Nights at Freddy's_ Ultimate Custom Night.html": "Ultimate Custom Night",
-    "Five Nights at Freddy's_ World.html": "FNAF World",
-    "Five Nights at Winston's.html": "Winston"
-  };
-
-  // Build game cards
   games.forEach(file => {
-    let displayName = fnafDisplayNames[file] || file.replace(".html","").replace(/_/g," ");
-    // shorten non-fnaf long names
-    if(displayName.length > 28 && !fnafDisplayNames[file]) displayName = displayName.slice(0,25) + "...";
-
+    const display = file.replace(".html","").replace(/_/g," ");
     const card = document.createElement("div");
     card.className = "game-card";
-    card.textContent = displayName;
+    card.textContent = display;
     card.onclick = () => {
-      // open Minecraft modal when clicking the Minecraft entry
-      if (file === "Minecraft.html") {
-        openMinecraftModal();
-        return;
-      }
-
-      // otherwise load the game's html inside the iframe
+      if (file === "Minecraft.html") { openMinecraftModal(); return; }
       gamesGrid.style.display = "none";
       gameContainer.style.display = "flex";
-      gameIframe.style.display = "block";
       gameIframe.src = file;
-      // show games tab if not visible
-      showTab(gamesTab);
     };
     gamesGrid.appendChild(card);
   });
@@ -472,83 +409,39 @@
   };
 
   fullscreenBtn.onclick = () => {
-    if(gameIframe.requestFullscreen){ gameIframe.requestFullscreen(); }
-    else if(gameIframe.webkitRequestFullscreen){ gameIframe.webkitRequestFullscreen(); }
-    else if(gameIframe.msRequestFullscreen){ gameIframe.msRequestFullscreen(); }
+    if(gameIframe.requestFullscreen) gameIframe.requestFullscreen();
   };
 
-  // --- STARFIELD GENERATION ---
-  const starfield = document.getElementById("starfield");
-  for(let i=0;i<300;i++){
-    const star = document.createElement("div");
-    star.className="star";
-    const size = Math.random()*2 +1+"px";
-    star.style.width = size;
-    star.style.height = size;
-    star.style.top = Math.random()*100+"%";
-    star.style.left = Math.random()*100+"%";
-    star.style.opacity = Math.random();
-    starfield.appendChild(star);
-  }
-
-  // --- Minecraft modal logic ---
   const mcBackdrop = document.getElementById("mcBackdrop");
   const e18 = document.getElementById("eagler18Btn");
   const e112 = document.getElementById("eagler112Btn");
-  const astra = document.getElementById("astraBtn");
   const mcBackBtn = document.getElementById("mcBackBtn");
 
   function openMinecraftModal(){
-    // show the modal and ensure games tab is visible
-    showTab(gamesTab);
     mcBackdrop.style.display = "flex";
-    mcBackdrop.style.opacity = "0";
-    // slight fade-in
-    requestAnimationFrame(()=> mcBackdrop.style.opacity = "1");
+    mcBackdrop.style.opacity = "1";
   }
-
   function closeMinecraftModal(){
     mcBackdrop.style.opacity = "0";
-    setTimeout(()=> mcBackdrop.style.display = "none", 180);
+    setTimeout(()=> mcBackdrop.style.display="none", 180);
   }
 
-  // When clicking a client option, load the corresponding HTML in the iframe and hide the modal.
-  e18.addEventListener("click", ()=>{
+  e18.onclick = () => {
     closeMinecraftModal();
-    // show container and load eaglercraft 1.8 file
     gamesGrid.style.display = "none";
     gameContainer.style.display = "flex";
-    gameIframe.style.display = "block";
     gameIframe.src = "Eaglercraft18.html";
-  });
-
-  e112.addEventListener("click", ()=>{
+  };
+  e112.onclick = () => {
     closeMinecraftModal();
     gamesGrid.style.display = "none";
     gameContainer.style.display = "flex";
-    gameIframe.style.display = "block";
     gameIframe.src = "Eaglercraft12.html";
-  });
+  };
+  mcBackBtn.onclick = () => closeMinecraftModal();
 
-  mcBackBtn.addEventListener("click", ()=>{
-    closeMinecraftModal();
-    // stay on games tab (do nothing else)
-    showTab(gamesTab);
-  });
-
-  // close modal when clicking backdrop (outside modal)
-  mcBackdrop.addEventListener("click", (e)=>{
-    if(e.target === mcBackdrop) closeMinecraftModal();
-  });
-
-  // keyboard escape closes modal
-  document.addEventListener("keydown", (e)=>{
-    if(e.key === "Escape" && mcBackdrop.style.display === "flex") closeMinecraftModal();
-  });
-
-  // Ensure on initial load we show home tab
-  showTab(homeTab);
-
+  mcBackdrop.addEventListener("click",(e)=>{ if(e.target===mcBackdrop) closeMinecraftModal(); });
+  document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && mcBackdrop.style.display==="flex") closeMinecraftModal(); });
 </script>
 </body>
 </html>
