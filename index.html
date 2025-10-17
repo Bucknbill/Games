@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>New Tab</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>HTMS Gaming</title>
+
+<!-- favicon (expects favicon.png in repo) -->
+<link rel="icon" type="image/png" href="favicon.png">
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
 
@@ -12,6 +16,7 @@
     --text: #f3f9ff;
     --nav-bg: rgba(0, 0, 0, 0.4);
     --card-bg: rgba(255, 255, 255, 0.12);
+    --modal-bg: rgba(6,10,18,0.75);
   }
 
   body {
@@ -121,8 +126,10 @@
   .msg { margin-top: 10px; color: #ff7575; font-size: 14px; }
 
   /* --- MAIN SITE --- */
-  .main-site { display: none; flex-direction: column; width: 100%; height: 100%; animation: fadeIn 0.8s ease forwards; z-index:2; position: relative;}
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
+  .main-site { display: none; flex-direction: column; width: 100%; height: 100%; z-index:2; position: relative;}
+  .content { flex: 1; padding: 25px; text-align: center; overflow: hidden; display: none; opacity:0; transition: opacity 0.6s ease; }
+  .content.active { display:block; opacity:1;}
+  .content h1 { font-size: 2rem; margin-bottom: 10px; }
 
   .navbar {
     display: flex;
@@ -157,15 +164,9 @@
     transition: color 0.2s;
   }
 
-  .nav-btn:hover {
-    color: var(--accent);
-  }
-
-  .content { flex: 1; padding: 25px; text-align: center; overflow: hidden; }
-  .content h1 { font-size: 2rem; margin-bottom: 10px; }
+  .nav-btn:hover { color: var(--accent); }
 
   /* --- Games Grid --- */
-  #gamesTab { display: none; height: calc(100vh - 80px); overflow-y: auto; padding-bottom: 20px; }
   .games-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -198,16 +199,66 @@
     font-size: 1.3rem;
     animation: rainbow 5s linear infinite;
   }
-
   @keyframes rainbow {
-    0% { color: red; }
-    14% { color: orange; }
-    28% { color: yellow; }
-    42% { color: green; }
-    57% { color: cyan; }
-    71% { color: blue; }
-    85% { color: violet; }
-    100% { color: red; }
+    0% { color: red; } 14% { color: orange; } 28% { color: yellow; } 42% { color: green; }
+    57% { color: cyan; } 71% { color: blue; } 85% { color: violet; } 100% { color: red; }
+  }
+
+  /* RGB for Home urgent notice (slightly bigger) */
+  .home-rgb {
+    display:block;
+    font-weight:900;
+    font-size:1.1rem;
+    margin-top:8px;
+    animation: rainbow 4.5s linear infinite;
+  }
+
+  /* --- Minecraft Modal --- */
+  .mc-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    background: var(--modal-bg);
+    backdrop-filter: blur(6px) saturate(120%);
+    transition: opacity 0.18s ease;
+  }
+  .mc-modal {
+    width: 360px;
+    max-width: calc(100% - 40px);
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    border: 1px solid rgba(128,208,255,0.06);
+    text-align: center;
+  }
+  .mc-title {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    font-weight:700;
+  }
+  .mc-options { display:flex; flex-direction:column; gap:10px; margin-top:10px; }
+  .mc-btn {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.12s ease;
+  }
+  .mc-btn:hover { transform: translateY(-3px); }
+  .mc-btn.e1 { background: linear-gradient(90deg,#76d07f,#3bbf4a); color:#05130a; }
+  .mc-btn.e2 { background: linear-gradient(90deg,#8dc4ff,#3f8cff); color:#031028; }
+  .mc-btn.astra { background: linear-gradient(90deg,#cda2ff,#8b5cff); color:#081025; }
+  .mc-btn.back { background: transparent; border: 1px solid rgba(243,247,255,0.08); color:var(--text); }
+
+  /* small responsive tweaks */
+  @media (max-width:480px) {
+    .mc-modal { width: 92%; padding:14px; }
+    .game-card{height:64px;}
   }
 
 </style>
@@ -242,9 +293,10 @@
   </div>
 
   <!-- HOME -->
-  <div class="content" id="homeTab">
+  <div class="content active" id="homeTab">
     <h1>🌌 Welcome to HTMS Gaming</h1>
     <p>Explore your personal galaxy of fun and creativity.</p>
+    <span class="home-rgb">PLEASE CHECK ANNOUNCEMENTS</span>
     <p>You can share this with anyone</p>
     <p>Credits To Chris (christopherafton on discord)</p>
   </div>
@@ -256,10 +308,11 @@
   </div>
 
   <!-- GAMES -->
-  <div class="content" id="gamesTab">
+  <div class="content" id="gamesTab" style="display:none;">
     <h1 class="rgb-text">Please do your work before playing =)</h1>
     <div class="games-grid" id="gamesGrid"></div>
-    <div class="game-container" id="gameContainer">
+
+    <div class="game-container" id="gameContainer" style="display:none;">
       <div class="game-controls">
         <button id="backBtn">⬅ Back</button>
         <button id="fullscreenBtn">⛶ Fullscreen</button>
@@ -274,7 +327,8 @@
     <ul style="text-align:left; max-width:600px; margin: 0 auto; line-height:1.5;">
       <li>Added Announcement and Changelog tabs.</li>
       <li>Shortened FNAF game display names.</li>
-      <li>Minecraft shows "In progress" when clicked.</li>
+      <li>Added Minecraft version selector (Eaglercraft 1.8, 1.12.2, AstraClient).</li>
+      <li>Changed tab name and icon to match Chrome new tab style.</li>
       <li>UI fade-in animations restored.</li>
       <li>Improved navbar spacing and responsiveness.</li>
     </ul>
@@ -289,12 +343,26 @@
   </div>
 </div>
 
+<!-- Minecraft modal -->
+<div class="mc-modal-backdrop" id="mcBackdrop" aria-hidden="true">
+  <div class="mc-modal" role="dialog" aria-modal="true" aria-labelledby="mcTitle">
+    <div class="mc-title" id="mcTitle">Minecraft — Choose a client</div>
+    <div style="font-size:0.9rem;color:rgba(255,255,255,0.85);">Select one to launch the game inside the site</div>
+
+    <div class="mc-options" style="margin-top:16px;">
+      <button class="mc-btn e1" id="eagler18Btn">Eaglercraft 1.8</button>
+      <button class="mc-btn e2" id="eagler112Btn">Eaglercraft 1.12.2</button>
+      <button class="mc-btn astra" id="astraBtn">AstraClient</button>
+      <button class="mc-btn back" id="mcBackBtn">Back</button>
+    </div>
+  </div>
+</div>
+
 <script>
   // --- PASSWORD ---
   const lockCard = document.getElementById("lockCard");
   const mainSite = document.getElementById("mainSite");
   const msg = document.getElementById("msg");
-
   document.getElementById("unlockBtn").onclick = () => {
     const input = document.getElementById("pw").value.trim();
     if (input === "sixgraderise") {
@@ -319,8 +387,12 @@
   const changelogTab = document.getElementById("changelogTab");
 
   function showTab(tab){
-    [homeTab, gamesTab, supportTab, announcementTab, changelogTab].forEach(t=>t.style.display="none");
-    tab.style.display="block";
+    [homeTab, gamesTab, supportTab, announcementTab, changelogTab].forEach(t=>{
+      t.classList.remove("active");
+      t.style.display = "none";
+    });
+    tab.style.display = "block";
+    tab.classList.add("active");
   }
 
   homeBtn.onclick = () => showTab(homeTab);
@@ -354,23 +426,41 @@
     "minesweeper.html","Getting Over It with Bennett Foddy.html","Retro Bowl College.html","Retro Bowl.html","Minecraft.html"
   ];
 
+  // shorten FNAF display names
+  const fnafDisplayNames = {
+    "Five Nights at Freddy's 2.html": "FNAF 2",
+    "Five Nights at Freddy's 3.html": "FNAF 3",
+    "Five Nights at Freddy's 4.html": "FNAF 4",
+    "Five Nights at Freddy's.html": "FNAF",
+    "Five Nights at Freddy's_ Sister Location.html": "Sister Location",
+    "Five Nights at Freddy's_ Ultimate Custom Night.html": "Ultimate Custom Night",
+    "Five Nights at Freddy's_ World.html": "FNAF World",
+    "Five Nights at Winston's.html": "Winston"
+  };
+
+  // Build game cards
   games.forEach(file => {
-    let displayName = file.replace(".html","").replace(/_/g," ");
-    if(displayName.includes("Five Nights at Freddy's")){
-      displayName = displayName.replace("Five Nights at Freddy's_ Ultimate Custom Night","Ultimate Custom Night");
-      displayName = displayName.replace("Five Nights at Freddy's_ Sister Location","Sister Location");
-    }
+    let displayName = fnafDisplayNames[file] || file.replace(".html","").replace(/_/g," ");
+    // shorten non-fnaf long names
+    if(displayName.length > 28 && !fnafDisplayNames[file]) displayName = displayName.slice(0,25) + "...";
+
     const card = document.createElement("div");
     card.className = "game-card";
     card.textContent = displayName;
     card.onclick = () => {
-      if(displayName === "Minecraft"){
-        alert("In progress");
+      // open Minecraft modal when clicking the Minecraft entry
+      if (file === "Minecraft.html") {
+        openMinecraftModal();
         return;
       }
+
+      // otherwise load the game's html inside the iframe
       gamesGrid.style.display = "none";
       gameContainer.style.display = "flex";
+      gameIframe.style.display = "block";
       gameIframe.src = file;
+      // show games tab if not visible
+      showTab(gamesTab);
     };
     gamesGrid.appendChild(card);
   });
@@ -389,7 +479,7 @@
 
   // --- STARFIELD GENERATION ---
   const starfield = document.getElementById("starfield");
-  for(let i=0;i<250;i++){
+  for(let i=0;i<300;i++){
     const star = document.createElement("div");
     star.className="star";
     const size = Math.random()*2 +1+"px";
@@ -400,6 +490,73 @@
     star.style.opacity = Math.random();
     starfield.appendChild(star);
   }
+
+  // --- Minecraft modal logic ---
+  const mcBackdrop = document.getElementById("mcBackdrop");
+  const e18 = document.getElementById("eagler18Btn");
+  const e112 = document.getElementById("eagler112Btn");
+  const astra = document.getElementById("astraBtn");
+  const mcBackBtn = document.getElementById("mcBackBtn");
+
+  function openMinecraftModal(){
+    // show the modal and ensure games tab is visible
+    showTab(gamesTab);
+    mcBackdrop.style.display = "flex";
+    mcBackdrop.style.opacity = "0";
+    // slight fade-in
+    requestAnimationFrame(()=> mcBackdrop.style.opacity = "1");
+  }
+
+  function closeMinecraftModal(){
+    mcBackdrop.style.opacity = "0";
+    setTimeout(()=> mcBackdrop.style.display = "none", 180);
+  }
+
+  // When clicking a client option, load the corresponding HTML in the iframe and hide the modal.
+  e18.addEventListener("click", ()=>{
+    closeMinecraftModal();
+    // show container and load eaglercraft 1.8 file
+    gamesGrid.style.display = "none";
+    gameContainer.style.display = "flex";
+    gameIframe.style.display = "block";
+    gameIframe.src = "Eaglercraft18.html";
+  });
+
+  e112.addEventListener("click", ()=>{
+    closeMinecraftModal();
+    gamesGrid.style.display = "none";
+    gameContainer.style.display = "flex";
+    gameIframe.style.display = "block";
+    gameIframe.src = "Eaglercraft12.html";
+  });
+
+  astra.addEventListener("click", ()=>{
+    closeMinecraftModal();
+    gamesGrid.style.display = "none";
+    gameContainer.style.display = "flex";
+    gameIframe.style.display = "block";
+    gameIframe.src = "AstraClient.html";
+  });
+
+  mcBackBtn.addEventListener("click", ()=>{
+    closeMinecraftModal();
+    // stay on games tab (do nothing else)
+    showTab(gamesTab);
+  });
+
+  // close modal when clicking backdrop (outside modal)
+  mcBackdrop.addEventListener("click", (e)=>{
+    if(e.target === mcBackdrop) closeMinecraftModal();
+  });
+
+  // keyboard escape closes modal
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape" && mcBackdrop.style.display === "flex") closeMinecraftModal();
+  });
+
+  // Ensure on initial load we show home tab
+  showTab(homeTab);
+
 </script>
 </body>
 </html>
