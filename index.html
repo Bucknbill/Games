@@ -173,7 +173,7 @@
     gap: 15px;
     margin-top: 20px;
     overflow-y: auto;
-    max-height: 60vh;
+    max-height: calc(100vh - 220px); /* allow grid to fit below header and not overflow offscreen */
     padding-right: 5px;
     scrollbar-width: thin;
     scrollbar-color: var(--accent) rgba(255,255,255,0.1);
@@ -310,12 +310,20 @@
   </div>
 
   <!-- HOME -->
-  <div class="content active" id="homeTab">
+  <div class="content active" id="homeTab" style="position: relative; height: 100%;">
     <h1>🌌 Welcome to HTMS Gaming</h1>
     <p>Explore your personal galaxy of fun and creativity.</p>
     <span class="home-rgb">PLEASE CHECK ANNOUNCEMENTS</span>
     <p>You can share this with anyone</p>
     <p>Credits To Chris (christopherafton on discord)</p>
+
+    <!-- Visitor counters (bottom-left and bottom-right) -->
+    <div style="position:absolute; bottom:10px; left:15px; font-size:14px; color:white;">
+      🌍 Total Visitors: <span id="visitCount">Loading...</span>
+    </div>
+    <div style="position:absolute; bottom:10px; right:15px; font-size:14px; color:white;">
+      👥 Online: <span id="onlineUsers">Loading...</span>
+    </div>
   </div>
 
   <!-- ANNOUNCEMENT -->
@@ -362,7 +370,7 @@
   </div>
 </div>
 
-<!-- Minecraft modal -->
+<!-- Minecraft modal (left in place in case you want to re-enable later) -->
 <div class="mc-modal-backdrop" id="mcBackdrop" aria-hidden="true">
   <div class="mc-modal" role="dialog" aria-modal="true" aria-labelledby="mcTitle">
     <div class="mc-title" id="mcTitle">Minecraft — Choose a client</div>
@@ -464,7 +472,8 @@
     card.textContent = displayName;
     card.onclick = () => {
       if (file === "Minecraft.html") {
-        openMinecraftModal();
+        // Show "in progress" message instead of opening the Minecraft modal
+        alert("🚧 Minecraft is currently in progress. Stay tuned! 🚧");
         return;
       }
       gamesGrid.style.display = "none";
@@ -501,7 +510,7 @@
     starfield.appendChild(star);
   }
 
-  // --- Minecraft modal logic ---
+  // --- Minecraft modal logic (left intact in case you want to re-enable later) ---
   const mcBackdrop = document.getElementById("mcBackdrop");
   const e18 = document.getElementById("eagler18Btn");
   const e112 = document.getElementById("eagler112Btn");
@@ -519,7 +528,7 @@
     setTimeout(()=> mcBackdrop.style.display = "none", 180);
   }
 
-  e18.addEventListener("click", ()=>{
+  e18 && e18.addEventListener("click", ()=>{
     closeMinecraftModal();
     gamesGrid.style.display = "none";
     gameContainer.style.display = "flex";
@@ -527,7 +536,7 @@
     gameIframe.src = "Eaglercraft18.html";
   });
 
-  e112.addEventListener("click", ()=>{
+  e112 && e112.addEventListener("click", ()=>{
     closeMinecraftModal();
     gamesGrid.style.display = "none";
     gameContainer.style.display = "flex";
@@ -535,7 +544,7 @@
     gameIframe.src = "Eaglercraft12.html";
   });
 
-  mcBackBtn.addEventListener("click", ()=>{
+  mcBackBtn && mcBackBtn.addEventListener("click", ()=>{
     closeMinecraftModal();
     showTab(gamesTab);
   });
@@ -569,6 +578,40 @@ document.addEventListener("keyup", (e) => {
 });
 
   showTab(homeTab);
+
+  /***********************
+   * Visitor counters
+   * - total visits uses CountAPI (no server needed)
+   * - online uses /api/online (create this serverless endpoint on Vercel)
+   ***********************/
+  (function initCounters(){
+    // Total visitors (CountAPI)
+    fetch('https://api.countapi.xyz/hit/htmsgaming/visits')
+      .then(res => res.json())
+      .then(res => {
+        const el = document.getElementById('visitCount');
+        if(el && res && typeof res.value !== 'undefined') el.innerText = res.value;
+      })
+      .catch(()=> {
+        const el = document.getElementById('visitCount'); if(el) el.innerText = "N/A";
+      });
+
+    // Live online users (calls your /api/online serverless route)
+    async function updateOnline(){
+      const el = document.getElementById('onlineUsers');
+      try{
+        const res = await fetch('/api/online');
+        if(!res.ok) throw new Error('no api');
+        const data = await res.json();
+        if(el) el.innerText = data.online ?? 0;
+      }catch(err){
+        // fallback: show 0 while serverless endpoint not present
+        if(el) el.innerText = "0";
+      }
+    }
+    updateOnline();
+    setInterval(updateOnline, 5000);
+  })();
 
 </script>
 </body>
