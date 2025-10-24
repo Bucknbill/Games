@@ -173,7 +173,7 @@
     gap: 15px;
     margin-top: 20px;
     overflow-y: auto;
-    max-height: calc(100vh - 220px);
+    max-height: calc(100vh - 220px); /* allow grid to fit below header and not overflow offscreen */
     padding-right: 5px;
     scrollbar-width: thin;
     scrollbar-color: var(--accent) rgba(255,255,255,0.1);
@@ -318,8 +318,11 @@
     <p>Credits To Chris (christopherafton on discord)</p>
 
     <!-- Visitor counters (bottom-left and bottom-right) -->
+    <div style="position:absolute; bottom:10px; left:15px; font-size:14px; color:white;">
+      🌍 Total Visitors: <span id="visitCount">Loading...</span>
+    </div>
     <div style="position:absolute; bottom:10px; right:15px; font-size:14px; color:white;">
-      👥 Online (Not Accurate): <span id="onlineUsers">Loading...</span>
+      👥 Online: <span id="onlineUsers">Loading...</span>
     </div>
   </div>
 
@@ -425,43 +428,44 @@
   announcementBtn.onclick = () => showTab(announcementTab);
   changelogBtn.onclick = () => showTab(changelogTab);
 
-  // --- GAMES ---
+  // --- GAME CARDS ---
   const gamesGrid = document.getElementById("gamesGrid");
   const gameContainer = document.getElementById("gameContainer");
   const gameIframe = document.getElementById("gameIframe");
   const backBtn = document.getElementById("backBtn");
   const fullscreenBtn = document.getElementById("fullscreenBtn");
 
-  const games = [
-    "HTMS Community",
-    "1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html",
-    "Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html","Ball Blast.html",
-    "Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
-    "Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
-    "Chat Bot (A._.I).html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html",
-    "Drift Boss.html","Drift Hunters.html","Five Nights at Freddy's 2.html","Five Nights at Freddy's 3.html",
-    "Five Nights at Freddy's 4.html","Five Nights at Freddy's.html","Five Nights at Freddy's_ Sister Location.html",
-    "Five Nights at Freddy's_ Ultimate Custom Night.html","Five Nights at Freddy's_ World.html","Five Nights at Winston's.html",
-    "Flappy Bird.html","Fruit Ninja.html","Half Life.html","Hollow Knight.html",
-    "Jelly Drift.html","Karlson.html","Money Rush.html","Paper.io 2.html","Pixel Gun Survival.html","Pizza Tower.html",
-    "Plinko.html","Pokemon Emerald.html","Pokemon Red.html","PortaBoy+.html","R.E.P.O.html","Raft.html",
-    "Sandboxels.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html",
-    "Subway Surfers_ San Francisco.html","Superhot.html","Temple Run 2.html","That's Not My Neighbor.html","They Are Coming.html",
-    "Time Shooter 3_ SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html","Turbo Stars.html","World Box.html",
-    "Getting Over It with Bennett Foddy.html","Retro Bowl College.html","Retro Bowl.html","Minecraft.html",
-    "Hotline Miami.html","A Dance of Fire and Ice.html","Basket Battle.html","BitPlanes.html","Boxing Random.html",
-    "Chess Classic.html","Coreball.html","Doom 2.html","DOOM.html","Football Bros.html","GladiHoppers.html",
-    "Gobble.html","Going Balls.html","Gun Clone.html","Happy Sheepies.html","Hide N Seek.html","High Heels.html",
-    "Minesweeper Mania.html","Mob Control HTML5.html","OMORI.html","People Playground.html","Road of Fury.html",
-    "Tall Man Run.html","Time Shooter 2.html","Time Shooter 1.html","Waterworks!.html","Wordle.html","Trivia Crack.html",
-    "The World's Hardest Game.html","The Man In The Window.html","Station 141.html","State.io.html","Stacky Dash.html",
-    "Snowbattle.io.html","Space Waves.html","Sandtris.html","Rooftop Snipers.html","Rooftop Snipers 2.html",
-    "Red Ball 4.html","Kindergarten.html","Kindergarten 2.html","Kindergarten 3.html","Granny.html","Granny 2.html",
-    "Granny 3.html","Fortzone Battle Royale.html","Fork n Sausage.html","Final Earth 2.html","Evil Glitch.html",
-    "Escape Road.html","Elastic Man.html","Draw Joust.html","Draw the Line.html","Doodle Jump.html","Choppy Orc.html",
-    "Celeste PICO.html","BitLife.html","Bank Robbery 2.html","Angry Birds.html","Angry Birds Showdown.html",
-    "Amanda the Adventurer.html","99 Balls.html"
-  ];
+const games = [
+  "HTMS Community.html",
+  "1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html",
+  "Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html","Ball Blast.html",
+  "Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
+  "Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
+  "Chat Bot (A._.I).html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html",
+  "Drift Boss.html","Drift Hunters.html","Five Nights at Freddy's 2.html","Five Nights at Freddy's 3.html",
+  "Five Nights at Freddy's 4.html","Five Nights at Freddy's.html","Five Nights at Freddy's_ Sister Location.html",
+  "Five Nights at Freddy's_ Ultimate Custom Night.html","Five Nights at Freddy's_ World.html","Five Nights at Winston's.html",
+  "Flappy Bird.html","Fruit Ninja.html","Half Life.html","Hollow Knight.html",
+  "Jelly Drift.html","Karlson.html","Money Rush.html","Paper.io 2.html","Pixel Gun Survival.html","Pizza Tower.html",
+  "Plinko.html","Pokemon Emerald.html","Pokemon Red.html","PortaBoy+.html","R.E.P.O.html","Raft.html",
+  "Sandboxels.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html",
+  "Subway Surfers_ San Francisco.html","Superhot.html","Temple Run 2.html","That's Not My Neighbor.html","They Are Coming.html",
+  "Time Shooter 3_ SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html","Turbo Stars.html","World Box.html",
+  "Getting Over It with Bennett Foddy.html","Retro Bowl College.html","Retro Bowl.html","Minecraft.html",
+  "Hotline Miami.html","A Dance of Fire and Ice.html","Basket Battle.html","BitPlanes.html","Boxing Random.html",
+  "Chess Classic.html","Coreball.html","Doom 2.html","DOOM.html","Football Bros.html","GladiHoppers.html",
+  "Gobble.html","Going Balls.html","Gun Clone.html","Happy Sheepies.html","Hide N Seek.html","High Heels.html",
+  "Minesweeper Mania.html","Mob Control HTML5.html","OMORI.html","People Playground.html","Road of Fury.html",
+  "Tall Man Run.html","Time Shooter 2.html","Time Shooter 1.html","Waterworks!.html","Wordle.html","Trivia Crack.html",
+  "The World's Hardest Game.html","The Man In The Window.html","Station 141.html","State.io.html","Stacky Dash.html",
+  "Snowbattle.io.html","Space Waves.html","Sandtris.html","Rooftop Snipers.html","Rooftop Snipers 2.html",
+  "Red Ball 4.html","Kindergarten.html","Kindergarten 2.html","Kindergarten 3.html","Granny.html","Granny 2.html",
+  "Granny 3.html","Fortzone Battle Royale.html","Fork n Sausage.html","Final Earth 2.html","Evil Glitch.html",
+  "Escape Road.html","Elastic Man.html","Draw Joust.html","Draw the Line.html","Doodle Jump.html","Choppy Orc.html",
+  "Celeste PICO.html","BitLife.html","Bank Robbery 2.html","Angry Birds.html","Angry Birds Showdown.html",
+  "Amanda the Adventurer.html","99 Balls.html"
+];
+
 
   const fnafDisplayNames = {
     "Five Nights at Freddy's 2.html": "FNAF 2",
@@ -474,30 +478,14 @@
     "Five Nights at Winston's.html": "Winston"
   };
 
-  function getDisplayName(file){
-    if(file === "HTMS Community") return "HTMS Community";
-    let name = fnafDisplayNames[file] || file.replace(".html","").replace(/_/g," ");
-    if(name.length > 28 && !fnafDisplayNames[file]) name = name.slice(0,25) + "...";
-    return name;
-  }
-
   games.forEach(file => {
-    const card = document.createElement("div");
-    card.className = "game-card";
-    card.textContent = getDisplayName(file);
-    card.onclick = () => {
-      if(file === "Minecraft.html") {
-        document.getElementById("mcBackdrop").style.display = "flex";
-        return;
-      }
-      gamesGrid.style.display = "none";
+    let displayName = fnafDisplayNames[file] || file.replace(".html","").replace(/_/g," ");
+    if(displayName.length > 28 && !fnafDisplayNames[file]) displayName = displayName.slice(0,25) + "...";
+
+play = "none";
       gameContainer.style.display = "flex";
       gameIframe.style.display = "block";
-      if(file === "HTMS Community") {
-        gameIframe.src = "https://padlet.com/Bucknbill/HTMSGaming";
-      } else {
-        gameIframe.src = file;
-      }
+      gameIframe.src = file;
       showTab(gamesTab);
     };
     gamesGrid.appendChild(card);
@@ -510,31 +498,127 @@
   };
 
   fullscreenBtn.onclick = () => {
-    if(gameIframe.requestFullscreen) gameIframe.requestFullscreen();
-    else if(gameIframe.webkitRequestFullscreen) gameIframe.webkitRequestFullscreen();
+    if(gameIframe.requestFullscreen){ gameIframe.requestFullscreen(); }
+    else if(gameIframe.webkitRequestFullscreen){ gameIframe.webkitRequestFullscreen(); }
+    else if(gameIframe.msRequestFullscreen){ gameIframe.msRequestFullscreen(); }
   };
 
-  // --- Minecraft Modal ---
-  const mcBackdrop = document.getElementById("mcBackdrop");
-  document.getElementById("mcBackBtn").onclick = () => mcBackdrop.style.display = "none";
-  document.getElementById("eagler18Btn").onclick = () => {
-    alert("🚧 Minecraft 1.8 launching..."); mcBackdrop.style.display="none";
-  };
-  document.getElementById("eagler112Btn").onclick = () => {
-    alert("🚧 Minecraft 1.12.2 launching..."); mcBackdrop.style.display="none";
-  };
-
-  // --- Star generation ---
   const starfield = document.getElementById("starfield");
-  for(let i=0;i<150;i++){
+  for(let i=0;i<300;i++){
     const star = document.createElement("div");
     star.className="star";
-    star.style.width = star.style.height = Math.random()*2 + "px";
+    const size = Math.random()*2 +1+"px";
+    star.style.width = size;
+    star.style.height = size;
     star.style.top = Math.random()*100+"%";
     star.style.left = Math.random()*100+"%";
+    star.style.opacity = Math.random();
     starfield.appendChild(star);
   }
-</script>
 
+  // --- Minecraft modal logic (left intact in case you want to re-enable later) ---
+  const mcBackdrop = document.getElementById("mcBackdrop");
+  const e18 = document.getElementById("eagler18Btn");
+  const e112 = document.getElementById("eagler112Btn");
+  const mcBackBtn = document.getElementById("mcBackBtn");
+
+  function openMinecraftModal(){
+    showTab(gamesTab);
+    mcBackdrop.style.display = "flex";
+    mcBackdrop.style.opacity = "0";
+    requestAnimationFrame(()=> mcBackdrop.style.opacity = "1");
+  }
+
+  function closeMinecraftModal(){
+    mcBackdrop.style.opacity = "0";
+    setTimeout(()=> mcBackdrop.style.display = "none", 180);
+  }
+
+  e18 && e18.addEventListener("click", ()=>{
+    closeMinecraftModal();
+    gamesGrid.style.display = "none";
+    gameContainer.style.display = "flex";
+    gameIframe.style.display = "block";
+    gameIframe.src = "Eaglercraft18.html";
+  });
+
+  e112 && e112.addEventListener("click", ()=>{
+    closeMinecraftModal();
+    gamesGrid.style.display = "none";
+    gameContainer.style.display = "flex";
+    gameIframe.style.display = "block";
+    gameIframe.src = "Eaglercraft12.html";
+  });
+
+  mcBackBtn && mcBackBtn.addEventListener("click", ()=>{
+    closeMinecraftModal();
+    showTab(gamesTab);
+  });
+
+let escapeTimer;
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && mcBackdrop.style.display === "flex" && !escapeTimer) {
+    // Start a timer when Escape is first pressed
+    escapeTimer = setTimeout(() => {
+      closeMinecraftModal(); // closes after holding
+      escapeTimer = null; // reset
+    }, 500); // adjust 500ms to how long you want the hold
+  }
+});
+
+document.addEventListener("keyup", (e) => {
+  if (e.key === "Escape") {
+    clearTimeout(escapeTimer); // cancel if released too early
+    escapeTimer = null;
+  }
+});
+
+
+document.addEventListener("keyup", (e) => {
+  // If the key is Escape and the modal is open
+  if (e.key === "Escape" && mcBackdrop.style.display === "flex") {
+    // Clear the timer. The modal will not close if the key is released before the timer finishes
+    clearTimeout(escapeTimer);
+  }
+});
+
+  showTab(homeTab);
+
+  /***********************
+   * Visitor counters
+   * - total visits uses CountAPI (no server needed)
+   * - online uses /api/online (create this serverless endpoint on Vercel)
+   ***********************/
+  (function initCounters(){
+    // Total visitors (CountAPI)
+    fetch('https://api.countapi.xyz/hit/htmsgaming/visits')
+      .then(res => res.json())
+      .then(res => {
+        const el = document.getElementById('visitCount');
+        if(el && res && typeof res.value !== 'undefined') el.innerText = res.value;
+      })
+      .catch(()=> {
+        const el = document.getElementById('visitCount'); if(el) el.innerText = "N/A";
+      });
+
+    // Live online users (calls your /api/online serverless route)
+    async function updateOnline(){
+      const el = document.getElementById('onlineUsers');
+      try{
+        const res = await fetch('/api/online');
+        if(!res.ok) throw new Error('no api');
+        const data = await res.json();
+        if(el) el.innerText = data.online ?? 0;
+      }catch(err){
+        // fallback: show 0 while serverless endpoint not present
+        if(el) el.innerText = "0";
+      }
+    }
+    updateOnline();
+    setInterval(updateOnline, 5000);
+  })();
+
+</script>
 </body>
 </html>
