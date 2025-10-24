@@ -459,19 +459,6 @@
     "Five Nights at Freddy's_ World.html": "FNAF World",
     "Five Nights at Winston's.html": "Winston"
   };
-
-  games.forEach(file => {
-    let displayName = fnafDisplayNames[file] || file.replace(".html","").replace(/_/g," ");
-    if(displayName.length > 28 && !fnafDisplayNames[file]) displayName = displayName.slice(0,25) + "...";
-
-    const card = document.createElement("div");
-    card.className = "game-card";
-    card.textContent = displayName;
-    card.onclick = () => {
-      if (file === "Minecraft.html") {
-        // Show "in progress" message instead of opening the Minecraft modal
-        alert("🚧 Minecraft is currently in progress. Stay tuned! 🚧");
-        return;
       }
       gamesGrid.style.display = "none";
       gameContainer.style.display = "flex";
